@@ -2,12 +2,13 @@
  * 
  * 	Author  : Burke Weston
  * 	Date    : 2026/08/06
- * 	File    : main_window.hpp
+ * 	File    : MainWindow.cpp
  * 	Project : JAudio Studio
  * 
  ********************************************************************************************************************/
 
 #include <MainWindow>
+#include <BulkConverterDialog>
 
 #include <QAction>
 #include <QComboBox>
@@ -102,11 +103,10 @@ void MainWindow::setupUI() {
 		"A♭ Major / f minor", "E♭ Major / c minor", "B♭ Major / g minor",  "F Major / d minor",
 	});
 
-	QWidget     *timeSignature       = new QWidget     (this);
-	QHBoxLayout *timeSignatureLayout = new QHBoxLayout (timeSignature);
+	QHBoxLayout *timeSignature = new QHBoxLayout();
 
-	timeSignatureLayout->setContentsMargins (0, 0, 0, 0);
-	timeSignatureLayout->setSpacing         (0);
+	timeSignature->setContentsMargins (0, 0, 0, 0);
+	timeSignature->setSpacing         (0);
 
 	QSpinBox  *timeSignatureNumerator   = new QSpinBox  (this);
 	QComboBox *timeSignatureDenominator = new QComboBox (this);
@@ -117,22 +117,24 @@ void MainWindow::setupUI() {
 	timeSignatureDenominator->addItems({ "1", "2", "4", "8", "16" });
 	timeSignatureDenominator->setCurrentText("4");
 
-	timeSignatureLayout->addWidget(timeSignatureNumerator  );
-	timeSignatureLayout->addWidget(new QLabel("/")         );
-	timeSignatureLayout->addWidget(timeSignatureDenominator);
+	timeSignature->addWidget  (timeSignatureNumerator  );
+	timeSignature->addWidget  (new QLabel("/")         );
+	timeSignature->addWidget  (timeSignatureDenominator);
 
-	QSpinBox *tempoBox = new QSpinBox(this);
+	QComboBox *trackList = new QComboBox(this);
+	trackList->addItem("All");
 
-	tempoBox->setRange  (20, 300);
-	tempoBox->setValue  (120);
-	tempoBox->setSuffix (" BPM");
+	for (const int &track : m_parser.getTracks()) {
+		trackList->addItem(QString("%1").arg(track));
+	}
 
-	m_controlLayout->addWidget  (new QLabel("Key: "  ));
-	m_controlLayout->addWidget  (keySignatureBox      );
-	m_controlLayout->addWidget  (new QLabel("Time: " ));
-	m_controlLayout->addWidget  (timeSignature        );
-	m_controlLayout->addWidget  (new QLabel("Tempo: "));
-	m_controlLayout->addWidget  (tempoBox             );
+	m_controlLayout->addWidget  (new QLabel("Key: "        ));
+	m_controlLayout->addWidget  (keySignatureBox            );
+	m_controlLayout->addWidget  (new QLabel("Time: "       ));
+	m_controlLayout->addLayout  (timeSignature              );
+	m_controlLayout->addWidget  (new QLabel("Tempo: -- BPM"));
+	m_controlLayout->addWidget  (new QLabel("Track: "      ));
+	m_controlLayout->addWidget  (trackList                  );
 	m_controlLayout->addStretch ();
 
 	QWidget     *editorArea   = new QWidget     (this);
@@ -166,20 +168,38 @@ void MainWindow::setupUI() {
 	// MENUS
 	// 
 
-	QMenu   *fileMenu   = menuBar()->addMenu ("&File");
-	QAction *openAction = new QAction        ("&Open BMS...", this);
+	QMenu   *fileMenu       = menuBar()->addMenu ("&File");
+	QAction *open           = new QAction        ("&Open BMS",       this);
+	QAction *exportToMIDI   = new QAction        ("&Export to MIDI", this);
+	QMenu   *convertMenu    = menuBar()->addMenu ("&Convert");
+	QAction *bulkConvertBMS = new QAction        ("&Bulk Convert BMS to MIDI", this);
 
-	openAction->setShortcut (QKeySequence::Open);
-	fileMenu  ->addAction   (openAction);
+	open         -> setShortcut (QKeySequence::Open    );
+	exportToMIDI -> setShortcut (QKeySequence("Ctrl+E"));
+	fileMenu     -> addAction   (    open    );
+	fileMenu     -> addAction   (exportToMIDI);
+
+	bulkConvertBMS -> setShortcut (QKeySequence("Ctrl+B"));
+	convertMenu    -> addAction   (bulkConvertBMS);
 
 	// 
 	// EVENTS
 	// 
 
-	connect(openAction,   &QAction             ::triggered,   this, &MainWindow::openFileBrowser);
-	connect(dropZone,     &DropZoneWidget      ::fileDropped, this, &MainWindow::onFileSelected );
-	connect(browseButton, &QPushButton         ::clicked,     this, &MainWindow::openFileBrowser);
-	connect(&m_watcher,   &QFutureWatcher<bool>::finished,    this, &MainWindow::onFileParsed   );
+	// File stuffs
+	connect(open,             &QAction             ::triggered,   this, &MainWindow::openFileBrowser  );
+	connect(dropZone,         &DropZoneWidget      ::fileDropped, this, &MainWindow::onFileSelected   );
+	connect(browseButton,     &QPushButton         ::clicked,     this, &MainWindow::openFileBrowser  );
+	connect(&m_openWatcher,   &QFutureWatcher<bool>::finished,    this, &MainWindow::onFileParsed     );
+	connect(exportToMIDI,     &QAction             ::triggered,   this, &MainWindow::openExportBrowser);
+	connect(&m_exportWatcher, &QFutureWatcher<bool>::finished,    this, &MainWindow::onFileExported    );
+	connect(bulkConvertBMS,   &QAction             ::triggered,   this, &MainWindow::openBulkConverter);
+
+	// UI updates
+	connect(keySignatureBox,          &QComboBox::currentIndexChanged, this, &MainWindow::onUIUpdated);
+	connect(timeSignatureNumerator,   &QSpinBox ::valueChanged,        this, &MainWindow::onUIUpdated);
+	connect(timeSignatureDenominator, &QComboBox::currentIndexChanged, this, &MainWindow::onUIUpdated);
+	connect(trackList,                &QComboBox::currentIndexChanged, this, &MainWindow::onUIUpdated);
 
 	// 
 	// SET CURRENT WIDGET
@@ -210,31 +230,115 @@ void MainWindow::onFileSelected(const QString &filePath) {
 		return m_parser.loadFromFile(filePath.toStdString());
 	});
 
-	m_watcher.setFuture(future);
+	m_openWatcher.setFuture(future);
 }
 
 void MainWindow::onFileParsed() {
-	bool success = m_watcher.result();
+	bool success = m_openWatcher.result();
 
 	if (success) {
 		setWindowTitle    ("JAudio Studio — " + m_fileInfo.fileName());
 		setWindowFilePath (m_fileInfo.filePath());
-		
-		m_stackedWidget -> setCurrentIndex (2);
-		m_pianoRoll     -> setPPQN         (m_parser.getPPQN  ());
-		m_pianoRoll     -> populate        (m_parser.getNotes (), m_parser.getTempoMap());
 
-		// 5 should be the time signature
-		QLayoutItem *item = m_controlLayout->itemAt(5);
-		
-		if (item) {
-			QSpinBox *tempo = (QSpinBox *)item->widget();
+		m_stackedWidget -> setCurrentIndex (2);
+		m_pianoRoll     -> setPPQN         (m_parser.getPPQN());
+
+		// 5 should be the track list
+		QLayoutItem *trackItem = m_controlLayout->itemAt(6);
+		int          track     = -1;
+
+		if (trackItem) {
+			QComboBox *trackList = (QComboBox *)trackItem->widget();
 			
-			tempo->setValue(m_parser.getTempoMap().begin()->second);
+			for (const int &track : m_parser.getTracks()) {
+				trackList->addItem(QString("%1").arg(track));
+			}
 		}
 
+		updateUI();
 	} else {
 		m_stackedWidget->setCurrentIndex(1);
 		QMessageBox::critical(this, "Error", "Failed to parse file!");
 	}
+}
+
+void MainWindow::onUIUpdated() {
+	updateUI();
+}
+
+void MainWindow::openBulkConverter() {
+	BulkConverterDialog dialog(this);
+	dialog.exec();
+}
+
+void MainWindow::updateUI() {
+	// 5 should be the track list
+	QLayoutItem *trackItem = m_controlLayout->itemAt(6);
+	int          track     = -1;
+
+	if (trackItem) {
+		bool       OK;
+		QComboBox *trackList = (QComboBox *)trackItem->widget();
+		track                = trackList->currentText().toInt(&OK);
+
+		if (!OK) { track = -1; }
+	}
+
+	// 3 should be the track list
+	QLayoutItem *timeSignatureItem = m_controlLayout->itemAt(3);
+	int          numerator         = 4;
+	int          denominator       = 4;
+
+	if (timeSignatureItem) {
+		QLayoutItem *numeratorItem   = timeSignatureItem->layout()->itemAt(0);
+		QLayoutItem *denominatorItem = timeSignatureItem->layout()->itemAt(2);
+		bool         OK;
+		
+		if ( numeratorItem ) { numerator   = ((QSpinBox  *)numeratorItem   -> widget())->value       (); }
+		if (denominatorItem) { denominator = ((QComboBox *)denominatorItem -> widget())->currentText ().toInt(&OK); }
+
+		if (!OK) { denominator = 4; }
+	}
+
+	m_pianoRoll->setTimeSignature (numerator, denominator);
+	m_pianoRoll->populate         (m_parser.getNotes (), m_parser.getTempoMap(), track);
+
+	// 5 should be the tempo
+	QLayoutItem *tempoItem = m_controlLayout->itemAt(4);
+	
+	if (tempoItem) {
+		QLabel *tempo = (QLabel *)tempoItem->widget();	
+		tempo->setText(QString("Tempo: %1 BPM").arg(m_parser.getTempoMap().begin()->second));
+	}
+}
+
+void MainWindow::openExportBrowser() {
+	QString filePath = QFileDialog::getSaveFileName(
+		this,
+		"Export MIDI",
+		"",
+		"MIDI File (*.mid);;All Files (*.*)"
+	);
+
+	if (!filePath.isEmpty()) {
+		exportCurrentToMIDI(filePath);
+		m_fileInfo = QFileInfo(filePath);
+	}
+}
+
+void MainWindow::exportCurrentToMIDI(const QString &filePath) {
+	QFuture<bool> future = QtConcurrent::run([this, filePath] () {
+		return m_exporter.exportToFile(filePath.toStdString(), m_parser);
+	});
+
+	m_exportWatcher.setFuture(future);
+
+	return;
+}
+
+void MainWindow::onFileExported() {
+	bool success = m_exportWatcher.result();
+
+	if (success) { QMessageBox::information (this, "Success!", "Successfully exported MIDI file."); }
+	else         { QMessageBox::critical    (this, "Error!",   "Failed to export MIDI file.");      }
 }

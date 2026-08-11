@@ -17,7 +17,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
 # Setup C++
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Qt Config
@@ -30,12 +30,14 @@ find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Concurrent)
 add_library(
 	JAudio SHARED
 	# JAudio/AAF
-	# JAudio/BMS
+	JAudio/Core/types.cpp
 	JAudio/BMS/Parser.cpp
-	include/JAudio/core/endian.hpp
-	include/JAudio/core/types.hpp
+	JAudio/BMS/MIDIExporter.cpp
+	include/JAudio/Core/endian.hpp
+	include/JAudio/Core/types.hpp
 	include/JAudio/BMS/commands.hpp
 	include/JAudio/BMS/parser.hpp
+	include/JAudio/BMS/midiexporter.hpp
 )
 
 target_include_directories(JAudio PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -47,9 +49,11 @@ add_executable(
 	src/MainWindow.cpp
 	src/DropZone.cpp
 	src/PianoRoll.cpp
+	src/BulkConverterDialog.cpp
 	include/mainwindow.hpp
 	include/dropzone.hpp
 	include/pianoroll.hpp
+	include/bulkconverterdialog.hpp
 )
 
 set_target_properties(JAudioStudio PROPERTIES MACOSX_BUNDLE FALSE)

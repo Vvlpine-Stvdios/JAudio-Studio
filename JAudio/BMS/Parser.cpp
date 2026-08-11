@@ -36,16 +36,15 @@ bool JAudio::BMS::Parser::loadFromFile(const std::string &filepath) {
 	std::array<std::array<ActiveNode, (size_t)7>, 256> notes;
 	u8 currentTrack = 0xFF;
 
-	// std::cout << buffer.size() << std::endl;
+	m_notes   .clear();
+	m_tracks  .clear();
+	m_tempoMap.clear();
 
 	// Set up debug prints
 	std::cout << std::hex << std::setfill('0');
 
 	while (i < buffer.size()) {
 		u8 opcode = buffer[i];
-
-		// std::cout << PTR << (int)i << ": " << OPC << (int)opcode << std::endl;
-		// std::cin.get();
 
 		// Note On
 		if (0x01 <= opcode && opcode <= 0x7F) {
@@ -92,7 +91,7 @@ bool JAudio::BMS::Parser::loadFromFile(const std::string &filepath) {
 		else if (opcode == 0x88) {
 			if (i + 2 < buffer.size()) {
 				const u8 duration[2] = { buffer[i + 1], buffer[i + 2] };
-				globalClock         += JAudio::Core::from_big_endian<u16>(duration);
+				globalClock         += JAudio::Core::swapEndian<u16>(duration);
 
 				i += 3;
 
@@ -105,14 +104,14 @@ bool JAudio::BMS::Parser::loadFromFile(const std::string &filepath) {
 				currentTrack  = (u8)buffer[i + 1];
 				const u8 p[3] = { buffer[i + 2], buffer[i + 3], buffer[i + 4] };
 
-				u24 pointer = JAudio::Core::from_big_endian<u24>(p);
+				u24 pointer = JAudio::Core::swapEndian<u24>(p);
 
 				i += 5;
 
 				stack.push_back(i);
 				i = (size_t)pointer;
 
-				// std::cout << "Going to Track Pointer: " << PTR << pointer << std::endl;
+				m_tracks.push_back(currentTrack);
 
 			} else { break; }
 		}
@@ -129,7 +128,7 @@ bool JAudio::BMS::Parser::loadFromFile(const std::string &filepath) {
 					buffer[i + offset + 4],
 				};
 
-				u32 pointer = JAudio::Core::from_big_endian<u32>(p);
+				u32 pointer = JAudio::Core::swapEndian<u32>(p);
 
 				i += offset + 5;
 
@@ -163,7 +162,7 @@ bool JAudio::BMS::Parser::loadFromFile(const std::string &filepath) {
 
 				// const u8 p[3] = { buffer[i + 2], buffer[i + 3], buffer[i + 4] };
 
-				// u24 pointer = JAudio::Core::from_big_endian<u24>(p);
+				// u24 pointer = JAudio::Core::swapEndian<u24>(p);
 
 				// i += 4;
 

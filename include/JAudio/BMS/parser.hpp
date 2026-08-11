@@ -29,13 +29,16 @@ namespace JAudio::BMS {
 	class Parser {
 
 		public:
-			bool  loadFromFile(const std::string &filepath);
+			bool loadFromFile(const std::string &filepath);
+
 			const std::vector<NoteEvent> &getNotes    () const { return m_notes;    }
+			const std::vector<int>       &getTracks   () const { return m_tracks;   }
 			const int                    &getPPQN     () const { return m_ppqn;     }
 			const std::map<int, int>     &getTempoMap () const { return m_tempoMap; }
 		
 		private:
 			std::vector<NoteEvent> m_notes;
+			std::vector<int>       m_tracks;
 			int                    m_ppqn;
 			std::map   <int, int>  m_tempoMap;
 

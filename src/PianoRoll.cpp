@@ -2,7 +2,7 @@
  * 
  * 	Author  : Burke Weston
  * 	Date    : 2026/08/06
- * 	File    : piano_roll_view.cpp
+ * 	File    : PianoRoll.cpp
  * 	Project : JAudio Studio
  * 
  ********************************************************************************************************************/
@@ -30,12 +30,20 @@ void PianoRollScene::setPPQN(int ppqn) {
 	update();
 }
 
-void PianoRollScene::drawBackground(QPainter *painter, const QRectF &rect) {
-	painter->fillRect(rect, QColor(40, 40, 40)); 
+void PianoRollScene::setTimeSignature(int numerator, int denominator) {
+	m_timeSignature[0] = numerator;
+	m_timeSignature[1] = denominator;
+	update();
+}
 
-	QPen horizontalPen (QColor(60, 60, 60)); 
-	QPen verticalPen   (QColor(80, 80, 80));   
-	// verticalPen.setStyle(Qt::DashLine);
+void PianoRollScene::drawBackground(QPainter *painter, const QRectF &rect) {
+	painter->fillRect(rect, QColor(40, 40, 40));
+
+	QPen horizontalPen (QColor(60, 60, 60));
+	QPen verticalPen   (QColor(80, 80, 80));
+	QPen barlinePen    (QColor(90, 90, 90));
+	verticalPen.setStyle(Qt::DashLine);
+	barlinePen .setWidth(2);
 
 	painter->setPen(horizontalPen);
 	int topY = int(rect.top()) - (int(rect.top()) % NOTE_HEIGHT);
@@ -44,12 +52,15 @@ void PianoRollScene::drawBackground(QPainter *painter, const QRectF &rect) {
 		painter->drawLine(rect.left(), y, rect.right(), y);
 	}
 
-	// 2. Draw Vertical Lines (Quarter Notes)
+	// 2. Draw Vertical Lines (Scaled to match time signature)
 	painter->setPen(verticalPen);
-	int quarterNoteWidth = m_ppqn * TICK_WIDTH_MULTIPLIER;
-	int leftX            = int(rect.left()) - (int(rect.left()) % quarterNoteWidth);
+	int beatWidth = m_ppqn * (m_timeSignature[1] / 4.0f) * TICK_WIDTH_MULTIPLIER;
+	int leftX     = (int)rect.left() - ((int)rect.left() % beatWidth);
 
-	for (int x = leftX; x < int(rect.right()); x += quarterNoteWidth) {
+	for (int x = leftX; x < int(rect.right()); x += beatWidth) {
+		if ((x / 120) % m_timeSignature[0] == 0) { painter->setPen(barlinePen ); }
+		else                                { painter->setPen(verticalPen); }
+		
 		painter->drawLine(x, rect.top(), x, rect.bottom());
 	}
 }
@@ -98,9 +109,12 @@ void PianoRoll::setupUI() {
 void PianoRoll::syncScrollBars() {
 	connect(m_pianoRollView->verticalScrollBar   (), &QScrollBar::valueChanged, m_keyboardView   -> verticalScrollBar   (), &QScrollBar::setValue);
 	connect(m_pianoRollView->horizontalScrollBar (), &QScrollBar::valueChanged, m_tempoTrackView -> horizontalScrollBar (), &QScrollBar::setValue);
+
+	connect(m_keyboardView   -> verticalScrollBar   (), &QScrollBar::valueChanged, m_pianoRollView->verticalScrollBar   (), &QScrollBar::setValue);
+	connect(m_tempoTrackView -> horizontalScrollBar (), &QScrollBar::valueChanged, m_pianoRollView->horizontalScrollBar (), &QScrollBar::setValue);
 }
 
-void PianoRoll::populate(const std::vector<JAudio::BMS::NoteEvent> &notes, const std::map<int, int> &tempoMap) {
+void PianoRoll::populate(const std::vector<JAudio::BMS::NoteEvent> &notes, const std::map<int, int> &tempoMap, int trackSolo) {
 	m_pianoRollScene  -> clear();
 	m_keyboardScene   -> clear();
 	m_tempoTrackScene -> clear();
@@ -113,6 +127,8 @@ void PianoRoll::populate(const std::vector<JAudio::BMS::NoteEvent> &notes, const
 	// 
 
 	for (const JAudio::BMS::NoteEvent &note : notes) {
+		if (note.track != trackSolo && trackSolo != -1) { continue; }
+
 		float x = note.start        * TICK_WIDTH_MULTIPLIER;
 		float y = (127 - note.note) * NOTE_HEIGHT;
 		float w = note.duration     * TICK_WIDTH_MULTIPLIER;
@@ -123,9 +139,7 @@ void PianoRoll::populate(const std::vector<JAudio::BMS::NoteEvent> &notes, const
 			totalWidth = x + w;
 		}
 
-		QColor trackColors[8] = { Qt::green, Qt::cyan,  Qt::magenta, Qt::yellow, Qt::darkRed, Qt::darkBlue,  Qt::red,   Qt::blue,  };
-		// QColor textColors [8] = { Qt::white, Qt::white, Qt::black, Qt::black, Qt::black,   Qt::black,  Qt::white,   Qt::white    };
-		// -> [0,1]u[6,7] => white ; [2,5] => black
+		QColor trackColors[8] = { Qt::green, Qt::cyan, Qt::magenta, Qt::yellow, Qt::darkRed, Qt::darkBlue, Qt::red, Qt::blue };
 
 		QGraphicsRectItem *rect = m_pianoRollScene->addRect(
 			x, y, w, h,
@@ -149,16 +163,6 @@ void PianoRoll::populate(const std::vector<JAudio::BMS::NoteEvent> &notes, const
 		font.setPixelSize(NOTE_HEIGHT - 2);
 		text->setFont(font);
 
-		// 0 -> 0 -> white
-		// 1 -> 0 -> white
-		// 2 -> 1 -> black
-		// 3 -> 1 -> black
-		// 4 -> 1 -> black
-		// 5 -> 1 -> black
-		// 6 -> 0 -> white
-		// 7 -> 0 -> white
-
-		// Weeeeeee parantheses helll yaaaaaaaaaaaaaaaaaaa
 		text->setBrush ((note.track % 8 < 4) ? Qt::black : Qt::white);
 		text->setPos   (x + 2, y + 1);
 
@@ -283,4 +287,8 @@ void PianoRoll::populate(const std::vector<JAudio::BMS::NoteEvent> &notes, const
 
 void PianoRoll::setPPQN(int ppqn) {
 	m_pianoRollScene->setPPQN(ppqn);
+}
+
+void PianoRoll::setTimeSignature(int numerator, int denominator) {
+	m_pianoRollScene->setTimeSignature(numerator, denominator);
 }

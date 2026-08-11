@@ -2,7 +2,7 @@
  * 
  * 	Author  : Burke Weston
  * 	Date    : 2026/08/06
- * 	File    : piano_roll_view.hpp
+ * 	File    : pianoroll.hpp
  * 	Project : JAudio Studio
  * 
  ********************************************************************************************************************/
@@ -24,14 +24,16 @@ class PianoRollScene : public QGraphicsScene {
 	public:
 		explicit PianoRollScene(QWidget *paren = nullptr);
 	
-		void setPPQN(int ppqn);
+		void setPPQN          (int ppqn);
+		void setTimeSignature (int numerator, int denominator);
 
 	protected:
 		void drawBackground(QPainter *painter, const QRectF &rect) override;
 
 	private:
 		// 120 seems to be basically what every file has
-		int m_ppqn = 120;
+		int m_ppqn             = 120;
+		int m_timeSignature[2] = { 4, 4 };
 
 		const int NOTE_HEIGHT           = 10;
 		const int TICK_WIDTH_MULTIPLIER = 1.0f;
@@ -45,8 +47,9 @@ class PianoRoll : public QWidget {
 	public:
 		explicit PianoRoll(QWidget *parent = nullptr);
 
-		void populate (const std::vector<JAudio::BMS::NoteEvent> &notes, const std::map<int, int> &tempoMap);
-		void setPPQN  (int ppqn);
+		void populate         (const std::vector<JAudio::BMS::NoteEvent> &notes, const std::map<int, int> &tempoMap, int trackSolo = -1);
+		void setPPQN          (int ppqn);
+		void setTimeSignature (int numerator, int denominator);
 	
 	private:
 		void setupUI        ();
@@ -62,7 +65,7 @@ class PianoRoll : public QWidget {
 
 		const int NOTE_HEIGHT           = 10;
 		const int KEYBOARD_WIDTH        = 60;
-		const int TEMPO_TRACK_HEIGHT    = 40;
+		const int TEMPO_TRACK_HEIGHT    = 20;
 		const int TICK_WIDTH_MULTIPLIER = 1.0f;
 
 };

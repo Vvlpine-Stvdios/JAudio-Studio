@@ -2,7 +2,7 @@
  * 
  * 	Author  : Burke Weston
  * 	Date    : 2026/08/06
- * 	File    : main_window.hpp
+ * 	File    : mainwindow.hpp
  * 	Project : JAudio Studio
  * 
  ********************************************************************************************************************/
@@ -21,6 +21,7 @@
 #include <QStackedWidget>
 
 #include <JAudio/BMS/Parser>
+#include <JAudio/BMS/MIDIExporter>
 
 class MainWindow : public QMainWindow {
 
@@ -31,16 +32,25 @@ class MainWindow : public QMainWindow {
 	   ~MainWindow() override = default;
 	
 	private slots:
-		void onFileSelected  (const QString &filePath);
-		void openFileBrowser ();
-		void onFileParsed    ();
+		void onFileSelected    (const QString &filePath);
+		void openFileBrowser   ();
+		void openExportBrowser ();
+		void onFileParsed      ();
+		void onFileExported    ();
+		void onUIUpdated       ();
+
+		void exportCurrentToMIDI (const QString &filePath);
+		void openBulkConverter   ();
 
 	private:
-		void setupUI();
+		void setupUI  ();
+		void updateUI ();
 
-		JAudio::BMS::Parser m_parser;
+		JAudio::BMS::Parser   m_parser;
+		MIDI       ::Exporter m_exporter;
 
-		QFutureWatcher<bool> m_watcher;
+		QFutureWatcher<bool> m_openWatcher;
+		QFutureWatcher<bool> m_exportWatcher;
 		QFileInfo            m_fileInfo;
 
 		QStackedWidget *m_stackedWidget;
