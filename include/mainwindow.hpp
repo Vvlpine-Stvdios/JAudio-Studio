@@ -9,7 +9,17 @@
 
 #pragma once
 
+#include <DropZone>
+#include <PianoRoll>
+
+#include <QFileInfo>
+#include <QFutureWatcher>
+#include <QHBoxLayout>
 #include <QMainWindow>
+#include <QProgressBar>
+#include <QSplitter>
+#include <QStackedWidget>
+
 #include <JAudio/BMS/Parser>
 
 class MainWindow : public QMainWindow {
@@ -21,9 +31,22 @@ class MainWindow : public QMainWindow {
 	   ~MainWindow() override = default;
 	
 	private slots:
-		void openBMSFile();
+		void onFileSelected  (const QString &filePath);
+		void openFileBrowser ();
+		void onFileParsed    ();
 
 	private:
-		JAudio::BMS::BMSParser m_parser;
+		void setupUI();
+
+		JAudio::BMS::Parser m_parser;
+
+		QFutureWatcher<bool> m_watcher;
+		QFileInfo            m_fileInfo;
+
+		QStackedWidget *m_stackedWidget;
+		QProgressBar   *m_progressBar;
+		PianoRoll      *m_pianoRoll;
+
+		QHBoxLayout *m_controlLayout;
 
 };

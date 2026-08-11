@@ -13,6 +13,7 @@ project(JAudioStudio VERSION 1.0 LANGUAGES CXX)
 
 # Set output directories
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
 # Setup C++
@@ -23,11 +24,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Concurrent)
 
 ## --- JAUDIO LIBRARY --- ##
 add_library(
-	JAudio STATIC
+	JAudio SHARED
 	# JAudio/AAF
 	# JAudio/BMS
 	JAudio/BMS/Parser.cpp
@@ -44,9 +45,11 @@ add_executable(
 	JAudioStudio
 	src/main.cpp
 	src/MainWindow.cpp
-	src/PianoRollView.cpp
+	src/DropZone.cpp
+	src/PianoRoll.cpp
 	include/mainwindow.hpp
-	include/pianorollview.hpp
+	include/dropzone.hpp
+	include/pianoroll.hpp
 )
 
 set_target_properties(JAudioStudio PROPERTIES MACOSX_BUNDLE FALSE)
@@ -57,5 +60,6 @@ target_link_libraries(
 	Qt6::Core
 	Qt6::Gui
 	Qt6::Widgets
+	Qt6::Concurrent
 	JAudio
 )

@@ -17,7 +17,7 @@
 #define OPC "0x" << std::uppercase << std::setw(2)
 #define PTR "0x" << std::uppercase << std::setw(6)
 
-bool JAudio::BMS::BMSParser::loadFromFile(const std::string &filepath) {
+bool JAudio::BMS::Parser::loadFromFile(const std::string &filepath) {
 	std::ifstream file(filepath, std::ios::binary);
 
 	if (!file) { std::cout << "Failed to parse file! File does not exist." << std::endl; return false; }
@@ -29,8 +29,8 @@ bool JAudio::BMS::BMSParser::loadFromFile(const std::string &filepath) {
 	size_t              i           = 0;
 
 	struct ActiveNode {
-		BMSNoteEvent note;
-		bool         active = false;
+		NoteEvent note;
+		bool      active = false;
 	};
 
 	std::array<std::array<ActiveNode, (size_t)7>, 256> notes;
@@ -143,15 +143,17 @@ bool JAudio::BMS::BMSParser::loadFromFile(const std::string &filepath) {
 
 		// Return or Track End
 		else if (opcode == 0xC6 || opcode == 0xFF) {
+			if (opcode == 0xFF) {
+				if (currentTrack == 0xFF || stack.empty()) { break; }
+				currentTrack = 0xFF;
+
+				globalClock = 0;
+				// std::cout << "Returning: " << PTR << i << std::endl;
+			}
+
 			i = stack.back();
 			stack.pop_back();
 
-			if (opcode == 0xFF) {
-				if (currentTrack == 0xFF) { break; }
-				currentTrack = 0xFF;
-
-				// std::cout << "Returning: " << PTR << i << std::endl;
-			}
 		}
 
 		// Jump
@@ -172,6 +174,24 @@ bool JAudio::BMS::BMSParser::loadFromFile(const std::string &filepath) {
 
 				// std::cout << "\tIgnoring Jump: " << PTR << i << std::endl;
 
+			} else { break; }
+
+		} else if (opcode == 0xFD) {
+			if (i + 3 < buffer.size()) {
+				m_tempoMap[globalClock] = (int)buffer[i + 2];
+
+				std::cout << PTR << globalClock << ": " << std::dec << m_tempoMap[globalClock] << std::hex << std::endl;
+
+				i += 3;
+			} else { break; }
+
+		} else if (opcode == 0xFE) {
+			if (i + 3 < buffer.size()) {
+				m_ppqn = (int)buffer[i + 2];
+
+				std::cout << "PPQN: " << std::dec << m_ppqn << std::hex << std::endl;
+
+				i += 3;
 			} else { break; }
 		}
 
@@ -194,9 +214,7 @@ bool JAudio::BMS::BMSParser::loadFromFile(const std::string &filepath) {
 			opcode == 0xD2 ||
 			opcode == 0xDA ||
 			opcode == 0xE6 ||
-			opcode == 0xE7 ||
-			opcode == 0xFD ||
-			opcode == 0xFE
+			opcode == 0xE7
 		) { if (i + 3 < buffer.size()) { i += 3; } }
 
 		// 3 params

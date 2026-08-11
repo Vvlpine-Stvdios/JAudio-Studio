@@ -13,6 +13,7 @@
 #include <cstdint>
 #include <string>
 #include <vector>
+#include <map>
 
 namespace JAudio::BMS {
 
@@ -23,16 +24,20 @@ namespace JAudio::BMS {
 		u8  note;
 		u8  voice;
 		u8  velocity;
-	} BMSNoteEvent;
+	} NoteEvent;
 
-	class BMSParser {
+	class Parser {
 
 		public:
-			bool                           loadFromFile (const std::string &filepath);
-			const std::vector<BMSNoteEvent> &getCommands  () const { return m_notes; }
+			bool  loadFromFile(const std::string &filepath);
+			const std::vector<NoteEvent> &getNotes    () const { return m_notes;    }
+			const int                    &getPPQN     () const { return m_ppqn;     }
+			const std::map<int, int>     &getTempoMap () const { return m_tempoMap; }
 		
-		public:
-			std::vector<BMSNoteEvent> m_notes;
+		private:
+			std::vector<NoteEvent> m_notes;
+			int                    m_ppqn;
+			std::map   <int, int>  m_tempoMap;
 
 	};
 
