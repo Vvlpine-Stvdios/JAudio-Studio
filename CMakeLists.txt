@@ -79,3 +79,11 @@ target_link_libraries(
 	Qt6::Concurrent
 	JAudio
 )
+
+# Run
+add_custom_target(run
+	COMMAND $<TARGET_FILE:JAudioStudio>
+	DEPENDS JAudioStudio
+	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+	COMMENT "Launching JAudio Studio"
+)

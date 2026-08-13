@@ -107,8 +107,7 @@ void PianoRoll::syncScrollBars() {
 }
 
 void PianoRoll::populate(const std::vector<JAudio::BMS::NoteEvent> &notes, int trackSolo) {
-	m_pianoRollScene -> clear();
-	m_keyboardScene  -> clear();
+	m_pianoRollScene->clear();
 
 	int totalHeight = 128 * NOTE_HEIGHT;
 	int totalWidth  = 5000;
@@ -161,6 +160,8 @@ void PianoRoll::populate(const std::vector<JAudio::BMS::NoteEvent> &notes, int t
 }
 
 void PianoRoll::drawKeyboard() {
+	m_keyboardScene->clear();
+
 	auto isBlack = [](int note) {
 		int n = note % 12;
 		return (n == 1 || n == 3 || n == 6 || n == 8 || n == 10);

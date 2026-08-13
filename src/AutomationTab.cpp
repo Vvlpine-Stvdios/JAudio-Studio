@@ -121,7 +121,7 @@ void AutomationTab::populate(const std::map<u8, std::map<u8, std::vector<JAudio:
 					int x = event.start * TICK_WIDTH_MULTIPLIER;
 					int y = (UINT8_MAX - arg);
 
-					QString tooltip = QString("Track %1\n%2 ")).arg(trackNumber).arg(opcode, 2, 16, '0';
+					QString tooltip = QString("Track %1\n%2 ").arg(trackNumber).arg(opcode, 2, 16, '0');
 
 					for (const u32 &a : args) { tooltip += (a == arg) ? QString("<b>%1</b> ").arg(a, 2, 16, '0') : QString("%1 ").arg(a, 2, 16, '0'); }
 

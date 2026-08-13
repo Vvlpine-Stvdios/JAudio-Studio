@@ -49,10 +49,10 @@ void MainWindow::setupUI() {
 
 	browseButton->setCursor(Qt::PointingHandCursor);
 
-	dropLayout      -> addStretch ();
-	innerDropLayout -> addWidget  (dropLabel);
-	innerDropLayout -> addWidget  (browseButton, 0, Qt::AlignHCenter);
-	innerDropLayout -> addStretch ();
+	innerDropLayout->addStretch ();
+	innerDropLayout->addWidget  (dropLabel);
+	innerDropLayout->addWidget  (browseButton, 0, Qt::AlignHCenter);
+	innerDropLayout->addStretch ();
 
 	dropLayout->setAlignment (Qt::AlignCenter);
 	dropLayout->addWidget    (dropZone);

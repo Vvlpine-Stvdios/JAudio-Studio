@@ -205,6 +205,7 @@ bool JAudio::BMS::Parser::loadFromFile(const std::string &filepath) {
 		else if (
 			opcode == CMD_DYNAMICS_SET        ||
 			opcode == 0xA0                    ||
+			opcode == 0xA1                    ||
 			opcode == CMD_PROGRAM_CHANGE      ||
 			opcode == 0xA6                    ||
 			opcode == 0xA7                    ||

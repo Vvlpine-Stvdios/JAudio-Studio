@@ -49,10 +49,10 @@ BulkConverterDialog::BulkConverterDialog(QWidget *parent) : QDialog(parent) {
 	// 
 	// OUTPUT DIRECTORY
 	// 
-	mainLayout->addWidget(new QLabel("Destination Folder"), this);
+	mainLayout->addWidget(new QLabel("Destination Folder", this));
 
 	QVBoxLayout *outputLayout = new QVBoxLayout();
-	QPushButton *browseButton = new QPushButton("Browse..."), this;
+	QPushButton *browseButton = new QPushButton("Browse...", this);
 
 	m_outputDirectoryEdit = new QLineEdit(this);
 	
@@ -74,9 +74,9 @@ BulkConverterDialog::BulkConverterDialog(QWidget *parent) : QDialog(parent) {
 	// 
 
 	QVBoxLayout *bottomLayout = new QVBoxLayout();
-	QPushButton *closeButton  = new QPushButton("Close"), this;
+	QPushButton *closeButton  = new QPushButton("Close", this);
 
-	m_convertButton = new QPushButton("Convert"), this;
+	m_convertButton = new QPushButton("Convert", this);
 
 	bottomLayout->addStretch ();
 	bottomLayout->addWidget  (  closeButton  );
