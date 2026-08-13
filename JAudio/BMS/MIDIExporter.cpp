@@ -4,6 +4,9 @@
  * 	Date    : 2026/08/10
  * 	File    : JAudio/BMS/MIDIExporter.cpp
  * 	Project : libJAudio
+ *  
+ *	libJAudio - Parses and converts JAudio files into standard formats.
+ * 	Copyright (C) 2026 Vulpine Studios
  * 
  ********************************************************************************************************************/
 
@@ -49,13 +52,13 @@ bool MIDI::Exporter::exportToFile(const std::string &filePath, const JAudio::BMS
 	writeBytes<u32>(tempoTrackBuffer, 0x4D54726B);
 	int lastTick = 0;
 
-	for (const auto &[time, tempo] : parser.getTempoMap()) {
-		int deltaTick = time - lastTick;
-		lastTick      = time;
+	for (const JAudio::BMS::AutomationEvent &event : parser.getAutomation().at(0xFF).at(JAudio::BMS::CMD_TEMPO_SET)) {
+		int deltaTick = event.start - lastTick;
+		lastTick      = event.start;
 
 		writeVariableLength(tempoTrackBuffer, deltaTick);
 
-		int microsecondsPerBeat = 60000000 / (float)tempo;
+		int microsecondsPerBeat = 60000000 / (float)event.args[1];
 
 		writeBytes<u24>(tempoTrackBuffer, (u24)0xFF5103);
 		writeBytes<u24>(tempoTrackBuffer, (u24)microsecondsPerBeat);
@@ -126,7 +129,7 @@ void MIDI::Exporter::writeMIDITrack(std::vector<u8> &buffer, const std::vector<J
 			static_cast<u32>(event.start),
 			event.note,
 			event.velocity,
-			(event.track > 8) ? event.track + 1 : event.track,
+			(u8)((event.track > 8) ? event.track + 1 : event.track),
 			START
 		});
 
@@ -134,7 +137,7 @@ void MIDI::Exporter::writeMIDITrack(std::vector<u8> &buffer, const std::vector<J
 			static_cast<u32>(event.start + event.duration),
 			event.note,
 			0x40,
-			(event.track > 8) ? event.track + 1 : event.track,
+			(u8)((event.track > 8) ? event.track + 1 : event.track),
 			END
 		});
 	}

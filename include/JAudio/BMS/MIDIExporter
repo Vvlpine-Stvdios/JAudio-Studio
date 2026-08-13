@@ -1,1 +1,2 @@
 #include "midiexporter.hpp"
+#include "../Core/config.hpp"

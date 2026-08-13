@@ -5,6 +5,9 @@
  * 	File    : JAudio/Core/endian.hpp
  * 	Project : libJAudio
  * 
+ *	libJAudio - Parses and converts JAudio files into standard formats.
+ * 	Copyright (C) 2026 Vulpine Studios
+ * 
  ********************************************************************************************************************/
 
 #pragma once

@@ -4,6 +4,12 @@
 # 	Date    : 2026/08/06
 # 	File    : CMakeLists.txt
 # 	Project : JAudio Studio
+#  
+#	libJAudio - Parses and converts JAudio files into standard formats.
+# 	Copyright (C) 2026 Vulpine Studios
+#
+#	JAudio Studio - Uses libJAudio to parse and convert JAudio files into standard formats, and displays that data.
+#	Copyright (C) 2026 Vulpine Studios
 # 
 #*******************************************************************************************************************#
 
@@ -50,13 +56,19 @@ add_executable(
 	src/DropZone.cpp
 	src/PianoRoll.cpp
 	src/BulkConverterDialog.cpp
+	src/AutomationTab.cpp
 	include/mainwindow.hpp
 	include/dropzone.hpp
 	include/pianoroll.hpp
 	include/bulkconverterdialog.hpp
+	include/automationtab.hpp
 )
 
-set_target_properties(JAudioStudio PROPERTIES MACOSX_BUNDLE FALSE)
+set_target_properties(JAudioStudio PROPERTIES
+	MACOSX_BUNDLE TRUE
+	MACOSX_BUNDLE_BUNDLE_NAME "JAudio Studio"
+	MACOSX_BUNDLE_GUI_IDENTIFIER "com.vulpine-studios.jaudio-studio"
+)
 
 # Link
 target_link_libraries(

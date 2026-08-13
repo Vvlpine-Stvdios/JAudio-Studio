@@ -5,12 +5,16 @@
  * 	File    : mainwindow.hpp
  * 	Project : JAudio Studio
  * 
+ *	JAudio Studio - Uses libJAudio to parse and convert JAudio files into standard formats, and displays that data.
+ * 	Copyright (C) 2026 Vulpine Studios
+ * 
  ********************************************************************************************************************/
 
 #pragma once
 
 #include <DropZone>
 #include <PianoRoll>
+#include <AutomationTab>
 
 #include <QFileInfo>
 #include <QFutureWatcher>
@@ -19,6 +23,9 @@
 #include <QProgressBar>
 #include <QSplitter>
 #include <QStackedWidget>
+#include <QLabel>
+#include <QSpinBox>
+#include <QComboBox>
 
 #include <JAudio/BMS/Parser>
 #include <JAudio/BMS/MIDIExporter>
@@ -56,7 +63,14 @@ class MainWindow : public QMainWindow {
 		QStackedWidget *m_stackedWidget;
 		QProgressBar   *m_progressBar;
 		PianoRoll      *m_pianoRoll;
+		AutomationTab  *m_automationTab;
 
 		QHBoxLayout *m_controlLayout;
+
+		QComboBox *m_keySignatureBox;
+		QSpinBox  *m_timeSignatureNumerator;
+		QComboBox *m_timeSignatureDenominator;
+		QComboBox *m_trackList;
+		QLabel    *m_tempo;
 
 };

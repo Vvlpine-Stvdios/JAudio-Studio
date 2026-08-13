@@ -4,6 +4,9 @@
  * 	Date    : 2026/08/11
  * 	File    : JAudio/Core/types.hpp
  * 	Project : libJAudio
+ *  
+ *	libJAudio - Parses and converts JAudio files into standard formats.
+ * 	Copyright (C) 2026 Vulpine Studios
  * 
  ********************************************************************************************************************/
 

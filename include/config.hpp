@@ -2,7 +2,7 @@
  * 
  * 	Author  : Burke Weston
  * 	Date    : 2026/08/06
- * 	File    : main.cpp
+ * 	File    : config.hpp
  * 	Project : JAudio Studio
  * 
  *	JAudio Studio - Uses libJAudio to parse and convert JAudio files into standard formats, and displays that data.
@@ -10,18 +10,12 @@
  * 
  ********************************************************************************************************************/
 
-#include <MainWindow>
+#pragma once
 
-#include <QApplication>
+#include <string>
 
-int main(int argc, char **argv) {
-	QApplication app(argc, argv);
-
-	app.setApplicationDisplayName ("JAudio Studio");
-	app.setApplicationName        ("JAudio Studio");
-
-	MainWindow window;
-	window.show();
-
-	return app.exec();
-}
+#define JAUDIO_STUDIO_VERSION_MAJOR 1
+#define JAUDIO_STUDIO_VERSION_MINOR 2
+#define JAUDIO_STUDIO_VERSION_PATCH 0
+#define JAUDIO_STUDIO_VERSION_STR std::to_string(LIBJAUDIO_VERSION_MAJOR) + "." + std::to_string(LIBJAUDIO_VERSION_MINOR) + "." + std::to_string(LIBJAUDIO_VERSION_PATCH)
+#define JAUDIO_STUDIO_COPYRIGHT "Copyright (C) Vulpine Studios"

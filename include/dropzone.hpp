@@ -5,6 +5,9 @@
  * 	File    : dropzone.hpp
  * 	Project : JAudio Studio
  * 
+ *	JAudio Studio - Uses libJAudio to parse and convert JAudio files into standard formats, and displays that data.
+ * 	Copyright (C) 2026 Vulpine Studios
+ * 
  ********************************************************************************************************************/
 
 #pragma once

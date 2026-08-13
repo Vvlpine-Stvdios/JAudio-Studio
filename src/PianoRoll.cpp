@@ -5,12 +5,14 @@
  * 	File    : PianoRoll.cpp
  * 	Project : JAudio Studio
  * 
+ *	JAudio Studio - Uses libJAudio to parse and convert JAudio files into standard formats, and displays that data.
+ * 	Copyright (C) 2026 Vulpine Studios
+ * 
  ********************************************************************************************************************/
 
 #include <PianoRoll>
 
 #include <QGridLayout>
-#include <QScrollBar>
 #include <QPainter>
 #include <QGraphicsRectItem>
 #include <QGraphicsLineItem>
@@ -37,11 +39,11 @@ void PianoRollScene::setTimeSignature(int numerator, int denominator) {
 }
 
 void PianoRollScene::drawBackground(QPainter *painter, const QRectF &rect) {
-	painter->fillRect(rect, QColor(40, 40, 40));
+	painter->fillRect(rect, QColor("#282828"));
 
-	QPen horizontalPen (QColor(60, 60, 60));
-	QPen verticalPen   (QColor(80, 80, 80));
-	QPen barlinePen    (QColor(90, 90, 90));
+	QPen horizontalPen (QColor("#3C3C3C"));
+	QPen verticalPen   (QColor("#505050"));
+	QPen barlinePen    (QColor("#5A5A5A"));
 	verticalPen.setStyle(Qt::DashLine);
 	barlinePen .setWidth(2);
 
@@ -71,6 +73,7 @@ void PianoRollScene::drawBackground(QPainter *painter, const QRectF &rect) {
 
 PianoRoll::PianoRoll(QWidget *parent) : QWidget(parent) {
 	setupUI        ();
+	drawKeyboard   ();
 	syncScrollBars ();
 }
 
@@ -81,50 +84,34 @@ void PianoRoll::setupUI() {
 	grid->setSpacing         (0);
 	grid->setContentsMargins (0, 0, 0, 0);
 
-	m_keyboardScene   = new QGraphicsScene(this);
-	m_pianoRollScene  = new PianoRollScene(this);
-	m_tempoTrackScene = new QGraphicsScene(this);
+	m_keyboardScene  = new QGraphicsScene(this);
+	m_pianoRollScene = new PianoRollScene(this);
 
-	m_keyboardView   = new QGraphicsView(m_keyboardScene,   this);
-	m_pianoRollView  = new QGraphicsView(m_pianoRollScene,  this);
-	m_tempoTrackView = new QGraphicsView(m_tempoTrackScene, this);
+	m_keyboardView  = new QGraphicsView(m_keyboardScene,   this);
+	m_pianoRollView = new QGraphicsView(m_pianoRollScene,  this);
 
 	m_keyboardView->setFrameShape                (QFrame::NoFrame);
 	m_keyboardView->setHorizontalScrollBarPolicy (Qt::ScrollBarAlwaysOff);
 	m_keyboardView->setVerticalScrollBarPolicy   (Qt::ScrollBarAlwaysOff);
 	m_keyboardView->setFixedWidth                (KEYBOARD_WIDTH);
 
-	m_tempoTrackView->setFrameShape                (QFrame::NoFrame);
-	m_tempoTrackView->setHorizontalScrollBarPolicy (Qt::ScrollBarAlwaysOff);
-	m_tempoTrackView->setVerticalScrollBarPolicy   (Qt::ScrollBarAlwaysOff);
-	m_tempoTrackView->setFixedHeight               (TEMPO_TRACK_HEIGHT);
-
 	m_pianoRollView->setFrameShape(QFrame::NoFrame);
 
-	grid->addWidget(m_tempoTrackView, 0, 1);
-	grid->addWidget(m_keyboardView,   1, 0);
-	grid->addWidget(m_pianoRollView,  1, 1);
+	grid->addWidget(m_keyboardView,  0, 0);
+	grid->addWidget(m_pianoRollView, 0, 1);
 }
 
 void PianoRoll::syncScrollBars() {
-	connect(m_pianoRollView->verticalScrollBar   (), &QScrollBar::valueChanged, m_keyboardView   -> verticalScrollBar   (), &QScrollBar::setValue);
-	connect(m_pianoRollView->horizontalScrollBar (), &QScrollBar::valueChanged, m_tempoTrackView -> horizontalScrollBar (), &QScrollBar::setValue);
-
-	connect(m_keyboardView   -> verticalScrollBar   (), &QScrollBar::valueChanged, m_pianoRollView->verticalScrollBar   (), &QScrollBar::setValue);
-	connect(m_tempoTrackView -> horizontalScrollBar (), &QScrollBar::valueChanged, m_pianoRollView->horizontalScrollBar (), &QScrollBar::setValue);
+	connect(m_pianoRollView -> verticalScrollBar (), &QScrollBar::valueChanged, m_keyboardView  -> verticalScrollBar (), &QScrollBar::setValue);
+	connect(m_keyboardView  -> verticalScrollBar (), &QScrollBar::valueChanged, m_pianoRollView -> verticalScrollBar (), &QScrollBar::setValue);
 }
 
-void PianoRoll::populate(const std::vector<JAudio::BMS::NoteEvent> &notes, const std::map<int, int> &tempoMap, int trackSolo) {
-	m_pianoRollScene  -> clear();
-	m_keyboardScene   -> clear();
-	m_tempoTrackScene -> clear();
+void PianoRoll::populate(const std::vector<JAudio::BMS::NoteEvent> &notes, int trackSolo) {
+	m_pianoRollScene -> clear();
+	m_keyboardScene  -> clear();
 
 	int totalHeight = 128 * NOTE_HEIGHT;
 	int totalWidth  = 5000;
-
-	// 
-	// PIANO ROLL
-	// 
 
 	for (const JAudio::BMS::NoteEvent &note : notes) {
 		if (note.track != trackSolo && trackSolo != -1) { continue; }
@@ -134,7 +121,6 @@ void PianoRoll::populate(const std::vector<JAudio::BMS::NoteEvent> &notes, const
 		float w = note.duration     * TICK_WIDTH_MULTIPLIER;
 		float h =                     NOTE_HEIGHT;
 
-		// Might change so it doesn't start updating every frame...
 		if (x + w > totalWidth) {
 			totalWidth = x + w;
 		}
@@ -169,14 +155,12 @@ void PianoRoll::populate(const std::vector<JAudio::BMS::NoteEvent> &notes, const
 		rect->setFlag(QGraphicsItem::ItemClipsChildrenToShape);
 	}
 
-	m_pianoRollScene  -> setSceneRect(0, 0, totalWidth,     totalHeight);
-	m_keyboardScene   -> setSceneRect(0, 0, KEYBOARD_WIDTH, totalHeight);
-	m_tempoTrackScene -> setSceneRect(0, 0, totalWidth,     TEMPO_TRACK_HEIGHT);
+	m_pianoRollScene -> setSceneRect(0, 0, totalWidth,     totalHeight);
+	m_keyboardScene  -> setSceneRect(0, 0, KEYBOARD_WIDTH, totalHeight);
 
-	// 
-	// KEYBOARD
-	// 
+}
 
+void PianoRoll::drawKeyboard() {
 	auto isBlack = [](int note) {
 		int n = note % 12;
 		return (n == 1 || n == 3 || n == 6 || n == 8 || n == 10);
@@ -231,14 +215,8 @@ void PianoRoll::populate(const std::vector<JAudio::BMS::NoteEvent> &notes, const
 				QBrush (QColor("#EEE"))
 			);
 
-			// if (note != 0) { continue; }
-
 			int h      =                       getH(note, NOTE_HEIGHT);
 			int frontY = (128 * NOTE_HEIGHT) - getY(note, NOTE_HEIGHT) - h + 1;
-
-			// std::cout
-			// 	<< note << ": "
-			// 	<< std::endl;
 
 			m_keyboardScene->addRect(
 				backW + 1, frontY, frontW, h - 1,
@@ -257,31 +235,12 @@ void PianoRoll::populate(const std::vector<JAudio::BMS::NoteEvent> &notes, const
 				text->setBrush(Qt::black);
 				
 				// Center the text vertically on the front part of the key
-				// float textY = y_front + (bottom - y_front) / 2.0f - (NOTE_HEIGHT - 2) / 2.0f;
-				// text->setPos(backW + 2, textY);
+				float textY = frontY + h / 2.0f - (NOTE_HEIGHT - 2) / 2.0f;
+				text->setPos(backW + 2, textY);
 				
 				m_keyboardScene->addItem(text);
 			}
 		}
-	}
-
-	// 
-	// TEMPO TRACK
-	// 
-
-	for (const auto &[time, tempo] : tempoMap) {
-		float x = time * TICK_WIDTH_MULTIPLIER;
-		// y = 0
-
-		QGraphicsLineItem       *line = m_tempoTrackScene->addLine  (x, 0, x, TEMPO_TRACK_HEIGHT, QPen(Qt::lightGray));
-		QGraphicsSimpleTextItem *text = new QGraphicsSimpleTextItem (QString("%1").arg(tempo), line);
-
-		QFont font = text->font();
-		font.setPixelSize (NOTE_HEIGHT - 2);
-		text->setFont     (font);
-
-		text->setBrush (Qt::lightGray);
-		text->setPos   (x + 2, 1);
 	}
 }
 

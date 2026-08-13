@@ -1,1 +1,2 @@
 #include "mainwindow.hpp"
+#include "config.hpp"
