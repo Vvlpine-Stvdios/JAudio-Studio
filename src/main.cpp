@@ -26,6 +26,7 @@ int main(int argc, char **argv) {
 	window.show();
 
 	if (argc >= 2) {
+		std::cout << "Opening \"" << argv[1] << "\"" << std::endl;
 		window.open(QString(argv[1]));
 	}
 

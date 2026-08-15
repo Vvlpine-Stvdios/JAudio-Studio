@@ -134,6 +134,8 @@ void MIDI::Exporter::writeMIDITrack(std::vector<u8> &buffer, const std::vector<J
 	// Instrument Name
 	writeBytes<u24>     (trackBuffer, (u24)0x00FF04);
 	writeVariableLength (trackBuffer, size);
+	
+	trackBuffer.insert(trackBuffer.end(), name.begin(), name.end());
 
 	// Wait 0
 	// Track Name
