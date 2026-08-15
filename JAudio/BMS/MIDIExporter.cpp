@@ -16,7 +16,7 @@
 #include <iostream>
 #include <algorithm>
 
-bool MIDI::Exporter::exportToFile(const std::string &filePath, const JAudio::BMS::Parser &parser) {
+bool MIDI::Exporter::exportToFile(const std::string &filePath, const JAudio::BMS::Parser &parser, const std::vector<TrackInfo> &trackInfos) {
 	std::ofstream file = std::ofstream(filePath, std::ios::out | std::ios::binary);
 
 	std::vector<u8> buffer = { };
@@ -39,7 +39,6 @@ bool MIDI::Exporter::exportToFile(const std::string &filePath, const JAudio::BMS
 	writeBytes<u32>(buffer, (u32)0x4D546864                   );
 	writeBytes<u32>(buffer, (u32)0x00000006                   );
 	writeBytes<u16>(buffer, (u16)0x0001                       );
-	// writeBytes<u16>(buffer, (u16)0x0001                       );
 	writeBytes<u16>(buffer, (u16)parser.getTracks().size() + 1);
 	writeBytes<u16>(buffer, (u16)parser.getPPQN()             );
 	
@@ -81,6 +80,7 @@ bool MIDI::Exporter::exportToFile(const std::string &filePath, const JAudio::BMS
 
 	std::vector<JAudio::BMS::NoteEvent> events = { };
 
+	int i = 0;
 	for (const int &track : parser.getTracks()) {
 		events.clear();
 
@@ -90,7 +90,7 @@ bool MIDI::Exporter::exportToFile(const std::string &filePath, const JAudio::BMS
 			}
 		}
 
-		writeMIDITrack(buffer, events);
+		writeMIDITrack(buffer, events, trackInfos[i++]);
 	}
 
 	// 
@@ -104,7 +104,7 @@ bool MIDI::Exporter::exportToFile(const std::string &filePath, const JAudio::BMS
 	return success;
 }
 
-void MIDI::Exporter::writeMIDITrack(std::vector<u8> &buffer, const std::vector<JAudio::BMS::NoteEvent> &events) {
+void MIDI::Exporter::writeMIDITrack(std::vector<u8> &buffer, const std::vector<JAudio::BMS::NoteEvent> &events, const TrackInfo &trackInfo) {
 	std::vector<u8> trackBuffer = { };
 	
 	// 0x4D54726B = MTrk in ASCII
@@ -122,14 +122,35 @@ void MIDI::Exporter::writeMIDITrack(std::vector<u8> &buffer, const std::vector<J
 
 	};
 
+	// Get the name as an array of bytes
+	std::vector<u8> name(
+        reinterpret_cast<const u8*>(trackInfo.name.c_str()),
+        reinterpret_cast<const u8*>(trackInfo.name.c_str() + std::strlen(trackInfo.name.c_str()))
+	);
+
+	size_t size = std::strlen(trackInfo.name.c_str());
+	
+	// Wait 0
+	// Instrument Name
+	writeBytes<u24>     (trackBuffer, (u24)0x00FF04);
+	writeVariableLength (trackBuffer, size);
+
+	// Wait 0
+	// Track Name
+	writeBytes<u24>     (trackBuffer, (u24)0x00FF03);
+	writeVariableLength (trackBuffer, size);
+
+	trackBuffer.insert(trackBuffer.end(), name.begin(), name.end());
+
 	std::vector<Info> MIDIEvents = { };
 
 	for (const JAudio::BMS::NoteEvent &event : events) {
+		u8 track = (trackInfo.isPerc) ? 9 : (event.track > 8) ? event.track + 1 : event.track;
 		MIDIEvents.push_back((Info) {
 			static_cast<u32>(event.start),
 			event.note,
 			event.velocity,
-			(u8)((event.track > 8) ? event.track + 1 : event.track),
+			track,
 			START
 		});
 
@@ -137,7 +158,7 @@ void MIDI::Exporter::writeMIDITrack(std::vector<u8> &buffer, const std::vector<J
 			static_cast<u32>(event.start + event.duration),
 			event.note,
 			0x40,
-			(u8)((event.track > 8) ? event.track + 1 : event.track),
+			track,
 			END
 		});
 	}

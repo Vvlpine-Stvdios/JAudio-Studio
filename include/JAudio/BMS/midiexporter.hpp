@@ -22,13 +22,18 @@
 
 namespace MIDI {
 
+	struct TrackInfo {
+		std::string name;
+		bool        isPerc;
+	};
+
 	class Exporter {
 
 		public:
-			bool exportToFile(const std::string &filePath, const JAudio::BMS::Parser &parser);
+			bool exportToFile(const std::string &filePath, const JAudio::BMS::Parser &parser, const std::vector<TrackInfo> &trackInfos);
 		
 		private:
-			void writeMIDITrack      (std::vector<u8> &buffer, const std::vector<JAudio::BMS::NoteEvent> &events);
+			void writeMIDITrack      (std::vector<u8> &buffer, const std::vector<JAudio::BMS::NoteEvent> &events, const TrackInfo &trackInfo);
 			void writeVariableLength (std::vector<u8> &trackBuffer, u32 value);
 
 			template<JAudio::Core::integral T>

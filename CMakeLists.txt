@@ -57,11 +57,13 @@ add_executable(
 	src/PianoRoll.cpp
 	src/BulkConverterDialog.cpp
 	src/AutomationTab.cpp
+	src/TrackInfoDisplay.cpp
 	include/mainwindow.hpp
 	include/dropzone.hpp
 	include/pianoroll.hpp
 	include/bulkconverterdialog.hpp
 	include/automationtab.hpp
+	include/trackinfodisplay.hpp
 )
 
 set_target_properties(JAudioStudio PROPERTIES
@@ -82,7 +84,7 @@ target_link_libraries(
 
 # Run
 add_custom_target(run
-	COMMAND $<TARGET_FILE:JAudioStudio>
+	COMMAND $<TARGET_FILE:JAudioStudio> $ENV{DEFAULT_FILE}
 	DEPENDS JAudioStudio
 	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 	COMMENT "Launching JAudio Studio"

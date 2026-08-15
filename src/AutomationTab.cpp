@@ -100,12 +100,12 @@ void AutomationTab::populate(const std::map<u8, std::map<u8, std::vector<JAudio:
 				switch (opcode) {
 					case JAudio::BMS::CMD_PARAM_SET:
 						args.push_back(event.args[0]);
-						args.push_back((static_cast<u32>(event.args[1]) << 8) | static_cast<u32>(event.args[2]));
+						args.push_back((u32)(static_cast<s16>(event.args[1]) << 8) | static_cast<u16>(event.args[2]));
 						break;
 
 					case JAudio::BMS::CMD_PARAM_SET_OVER_TIME:
 						args.push_back(event.args[0]);
-						args.push_back((static_cast<u32>(event.args[1]) << 8) | static_cast<u32>(event.args[2]));
+						args.push_back((u32)(static_cast<s16>(event.args[1]) << 8) | static_cast<u16>(event.args[2]));
 						args.push_back(event.args[3]);
 						break;
 
@@ -119,7 +119,7 @@ void AutomationTab::populate(const std::map<u8, std::map<u8, std::vector<JAudio:
 					QPen pen = QPen(QColor::fromHsv((opcode * 37) % 360, 200, 64 * i - 1));
 
 					int x = event.start * TICK_WIDTH_MULTIPLIER;
-					int y = (UINT8_MAX - arg);
+					int y = m_scene->height() - (arg / (float)UINT8_MAX * m_scene->height());
 
 					QString tooltip = QString("Track %1\n%2 ").arg(trackNumber).arg(opcode, 2, 16, '0');
 

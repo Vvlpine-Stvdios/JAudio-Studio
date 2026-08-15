@@ -56,12 +56,12 @@ void PianoRollScene::drawBackground(QPainter *painter, const QRectF &rect) {
 
 	// 2. Draw Vertical Lines (Scaled to match time signature)
 	painter->setPen(verticalPen);
-	int beatWidth = m_ppqn * (m_timeSignature[1] / 4.0f) * TICK_WIDTH_MULTIPLIER;
+	int beatWidth = m_ppqn / (m_timeSignature[1] / 4.0f) * TICK_WIDTH_MULTIPLIER;
 	int leftX     = (int)rect.left() - ((int)rect.left() % beatWidth);
 
 	for (int x = leftX; x < int(rect.right()); x += beatWidth) {
-		if ((x / 120) % m_timeSignature[0] == 0) { painter->setPen(barlinePen ); }
-		else                                { painter->setPen(verticalPen); }
+		if ((x / m_ppqn) % m_timeSignature[0] == 0) { painter->setPen(barlinePen ); }
+		else                                        { painter->setPen(verticalPen); }
 		
 		painter->drawLine(x, rect.top(), x, rect.bottom());
 	}

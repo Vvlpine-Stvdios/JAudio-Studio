@@ -21,6 +21,8 @@
 #include <JAudio/BMS/Parser>
 #include <JAudio/BMS/MIDIExporter>
 
+#include <string>
+
 BulkConverterDialog::BulkConverterDialog(QWidget *parent) : QDialog(parent) {
 	setWindowTitle ("Bulk Convert BMS to MIDI");
 	resize         (500, 400);
@@ -141,8 +143,17 @@ void BulkConverterDialog::startConversion() {
 			.arg(m_outputDirectoryEdit->text())
 			.arg(info.fileName().replace(".bms", ""));
 
-		parser  .loadFromFile(filePath.toStdString());
-		exporter.exportToFile(outPath .toStdString(), parser);
+		parser.loadFromFile(filePath.toStdString());
+
+		std::vector<MIDI::TrackInfo> infos = { };
+
+		for (const int &track : parser.getTracks()) {
+			if (track != 0xFF && track != -1) {
+				infos.push_back((MIDI::TrackInfo) { "Track " + std::to_string(track), false });
+			}
+		}
+
+		exporter.exportToFile(outPath .toStdString(), parser, infos);
 
 		m_progressBar->setValue(m_progressBar->value() + 1);
 	}

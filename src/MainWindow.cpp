@@ -11,6 +11,7 @@
  ********************************************************************************************************************/
 
 #include <MainWindow>
+#include <TrackInfoDisplay>
 #include <BulkConverterDialog>
 
 #include <QAction>
@@ -83,7 +84,8 @@ void MainWindow::setupUI() {
 	// PAGE 2: Editor
 	// 
 
-	QSplitter *mainSplitter = new QSplitter(Qt::Vertical, this);
+	QSplitter *mainSplitter      = new QSplitter(Qt::Vertical,   this);
+	QSplitter *secondarySplitter = new QSplitter(Qt::Horizontal, this);
 
 	// Top half (piano roll)
 	QWidget     *topHalf   = new QWidget     (this);
@@ -122,16 +124,6 @@ void MainWindow::setupUI() {
 	timeSignature->addWidget  (new QLabel("/")           );
 	timeSignature->addWidget  (m_timeSignatureDenominator);
 
-	QPushButton *left  = new QPushButton("<", this);
-	QPushButton *right = new QPushButton(">", this);
-
-	m_trackList = new QComboBox(this);
-	m_trackList->addItems({ "All", "Global" });
-
-	for (const int &track : m_parser.getTracks()) {
-		m_trackList->addItem(QString("%1").arg(track));
-	}
-
 	m_tempo = new QLabel("Tempo: -- BPM");
 
 	m_controlLayout->addWidget  (new QLabel("Key: "  ));
@@ -140,9 +132,6 @@ void MainWindow::setupUI() {
 	m_controlLayout->addLayout  (timeSignature        );
 	m_controlLayout->addWidget  (m_tempo              );
 	m_controlLayout->addWidget  (new QLabel("Track: "));
-	m_controlLayout->addWidget  (left                 );
-	m_controlLayout->addWidget  (m_trackList          );
-	m_controlLayout->addWidget  (right                );
 	m_controlLayout->addStretch ();
 
 	QWidget     *editorArea   = new QWidget     (this);
@@ -158,6 +147,35 @@ void MainWindow::setupUI() {
 	topLayout->addWidget(controlPanel);
 	topLayout->addWidget( editorArea );
 
+	secondarySplitter->addWidget(topHalf);
+
+	// Left panel
+	QWidget     *rightPanel  = new QWidget     (this);
+	QVBoxLayout *rightLayout = new QVBoxLayout (rightPanel);
+
+	QLabel *trackInspectorLabel = new QLabel("<b>Track Inspector</b>", this);
+	rightLayout->addWidget(trackInspectorLabel);
+
+	QHBoxLayout *navLayout = new QHBoxLayout();
+	QPushButton *left      = new QPushButton("<", this);
+	QPushButton *right     = new QPushButton(">", this);
+
+	m_trackList        = new QComboBox      (this);
+	m_trackDataDisplay = new QStackedWidget (this);
+	m_trackList        -> addItems({ "All", "Global" });
+	m_trackDataDisplay -> addWidget(new TrackInfoDisplay(this,  -1, "All"));
+	m_trackDataDisplay -> addWidget(new TrackInfoDisplay(this, 255, "All"));
+
+	
+	navLayout  -> addWidget(left              );
+	navLayout  -> addWidget(m_trackList       );
+	navLayout  -> addWidget(right             );
+	rightLayout -> addLayout(navLayout         );
+	rightLayout -> addWidget(m_trackDataDisplay);
+
+	secondarySplitter->addWidget (rightPanel);
+	secondarySplitter->setSizes  ({ 800, 200 });
+
 	// Bottom half (automation)
 	QWidget       *bottomHalf    = new QWidget       (this);
 	QVBoxLayout   *bottomLayout  = new QVBoxLayout   (bottomHalf);
@@ -165,7 +183,7 @@ void MainWindow::setupUI() {
 
 	bottomLayout->addWidget(m_automationTab);
 
-	mainSplitter->addWidget(topHalf);
+	mainSplitter->addWidget(secondarySplitter);
 	mainSplitter->addWidget(bottomHalf);
 
 	m_stackedWidget->addWidget(mainSplitter);
@@ -236,8 +254,8 @@ void MainWindow::setupUI() {
 	connect(m_timeSignatureDenominator, &QComboBox::currentIndexChanged, this, &MainWindow::onUIUpdated);
 	connect(m_trackList,                &QComboBox::currentIndexChanged, this, &MainWindow::onUIUpdated);
 
-	connect(left,  &QPushButton::clicked, [this]() { m_trackList->setCurrentIndex((m_trackList->currentIndex() - 1) % m_trackList->count()); });
-	connect(right, &QPushButton::clicked, [this]() { m_trackList->setCurrentIndex((m_trackList->currentIndex() + 1) % m_trackList->count()); });
+	connect(left,  &QPushButton::clicked, [this]() { m_trackList->setCurrentIndex((m_trackList->currentIndex() - 1) % m_trackList->count()); m_trackDataDisplay->setCurrentIndex(m_trackList->currentIndex()); });
+	connect(right, &QPushButton::clicked, [this]() { m_trackList->setCurrentIndex((m_trackList->currentIndex() + 1) % m_trackList->count()); m_trackDataDisplay->setCurrentIndex(m_trackList->currentIndex()); });
 
 	connect(m_pianoRoll     -> getHorizontalScrollBar(), &QScrollBar::valueChanged, m_automationTab -> getHorizontalScrollBar(), &QScrollBar::setValue);
 	connect(m_automationTab -> getHorizontalScrollBar(), &QScrollBar::valueChanged, m_pianoRoll     -> getHorizontalScrollBar(), &QScrollBar::setValue);
@@ -263,6 +281,7 @@ void MainWindow::openFileBrowser() {
 	}
 }
 
+void MainWindow::open          (const QString &filePath) { onFileSelected(filePath); }
 void MainWindow::onFileSelected(const QString &filePath) {
 	m_stackedWidget->setCurrentIndex(1);
 
@@ -286,7 +305,9 @@ void MainWindow::onFileParsed() {
 		m_automationTab -> setPPQN         (m_parser.getPPQN());
 
 		for (const int &track : m_parser.getTracks()) {
-			m_trackList->addItem(QString("%1").arg(track));
+			QString name = QString("%1").arg(track);
+			m_trackList        -> addItem   (                                  name               );
+			m_trackDataDisplay -> addWidget (new TrackInfoDisplay(this, track, name.toStdString()));
 		}
 
 		updateUI();
@@ -314,9 +335,11 @@ void MainWindow::updateUI() {
 		else                                                 { track = -1;   }
 	}
 
+	m_trackDataDisplay->setCurrentIndex(m_trackList->currentIndex());
+
 	// 3 should be the track list
-	int numerator         = 4;
-	int denominator       = 4;
+	int numerator   = 4;
+	int denominator = 4;
 	
 	numerator   = m_timeSignatureNumerator   -> value       ();
 	denominator = m_timeSignatureDenominator -> currentText ().toInt(&OK);
@@ -347,8 +370,16 @@ void MainWindow::openExportBrowser() {
 }
 
 void MainWindow::exportCurrentToMIDI(const QString &filePath) {
-	QFuture<bool> future = QtConcurrent::run([this, filePath] () {
-		return m_exporter.exportToFile(filePath.toStdString(), m_parser);
+	std::vector<MIDI::TrackInfo> trackInfos = {};
+
+	for (int i = 0; i < m_trackDataDisplay->count(); i++) {
+		MIDI::TrackInfo info = ((TrackInfoDisplay *)m_trackDataDisplay->widget(i))->getInfo();
+
+		if (info.name != "All" && info.name != "Global") { trackInfos.push_back(info); }
+	}
+
+	QFuture<bool> future = QtConcurrent::run([this, filePath, trackInfos] () {
+		return m_exporter.exportToFile(filePath.toStdString(), m_parser, trackInfos);
 	});
 
 	m_exportWatcher.setFuture(future);

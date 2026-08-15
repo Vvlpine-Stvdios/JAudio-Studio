@@ -14,6 +14,8 @@
 
 #include <QApplication>
 
+#include <iostream>
+
 int main(int argc, char **argv) {
 	QApplication app(argc, argv);
 
@@ -22,6 +24,10 @@ int main(int argc, char **argv) {
 
 	MainWindow window;
 	window.show();
+
+	if (argc >= 2) {
+		window.open(QString(argv[1]));
+	}
 
 	return app.exec();
 }

@@ -22,6 +22,7 @@
 #include <QMainWindow>
 #include <QProgressBar>
 #include <QSplitter>
+#include <QListWidget>
 #include <QStackedWidget>
 #include <QLabel>
 #include <QSpinBox>
@@ -37,6 +38,8 @@ class MainWindow : public QMainWindow {
 	public:
 		explicit MainWindow(QWidget *parent = nullptr);
 	   ~MainWindow() override = default;
+
+	    void open(const QString &filePath);
 	
 	private slots:
 		void onFileSelected    (const QString &filePath);
@@ -67,10 +70,11 @@ class MainWindow : public QMainWindow {
 
 		QHBoxLayout *m_controlLayout;
 
-		QComboBox *m_keySignatureBox;
-		QSpinBox  *m_timeSignatureNumerator;
-		QComboBox *m_timeSignatureDenominator;
-		QComboBox *m_trackList;
-		QLabel    *m_tempo;
+		QComboBox      *m_keySignatureBox;
+		QSpinBox       *m_timeSignatureNumerator;
+		QComboBox      *m_timeSignatureDenominator;
+		QComboBox      *m_trackList;
+		QStackedWidget *m_trackDataDisplay;
+		QLabel         *m_tempo;
 
 };

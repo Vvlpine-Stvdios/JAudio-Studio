@@ -19,8 +19,9 @@
 #include <variant>
 #include <tuple>
 
-#define OPC "0x" << std::uppercase << std::setw(2)
-#define PTR "0x" << std::uppercase << std::setw(6)
+#define OPC "0x" << std::uppercase << std::setw(2) << (int)
+#define HEX(n)      std::uppercase << std::setw(n) << (int)
+#define PTR "0x" << std::uppercase << std::setw(6) << (int)
 
 bool JAudio::BMS::Parser::loadFromFile(const std::string &filepath) {
 	std::ifstream file(filepath, std::ios::binary);
@@ -149,8 +150,10 @@ bool JAudio::BMS::Parser::loadFromFile(const std::string &filepath) {
 				globalClock = 0;
 			}
 
-			i = stack.back();
-			stack.pop_back();
+			if (stack.size() != 0) {
+				i = stack.back();
+				stack.pop_back();
+			}
 
 		}
 
@@ -159,16 +162,17 @@ bool JAudio::BMS::Parser::loadFromFile(const std::string &filepath) {
 			if (i + 5 < buffer.size()) {
 				// Not entirely sure how this works yet.
 
-				// const u8 p[3] = { buffer[i + 2], buffer[i + 3], buffer[i + 4] };
+				const u8 p[3] = { buffer[i + 2], buffer[i + 3], buffer[i + 4] };
 
-				// u24 pointer = JAudio::Core::swapEndian<u24>(p);
+				u24 pointer = JAudio::Core::swapEndian<u24>(p);
 
-				// i += 4;
+				// std::cout << "Pushing " << PTR << (int)i << " to the stack. Going to " << PTR << (int)pointer << std::endl;
+				// std::cout << PTR (int)i << ": " << OPC opcode << HEX(2) buffer[i + 1] << HEX(2) buffer[i + 2] << HEX(2) buffer[i + 3] << HEX(2) buffer[i + 4] << std::endl;
+
+				i += 5;
 
 				// stack.push_back(i);
 				// i = (size_t)pointer;
-
-				i += 5;
 
 			} else { break; }
 
@@ -187,7 +191,10 @@ bool JAudio::BMS::Parser::loadFromFile(const std::string &filepath) {
 		else if (opcode == CMD_NOOP) { i++; }
 
 		// 1 param
-		else if (opcode == 0xF4) {
+		else if (
+			opcode == 0xF1 ||
+			opcode == 0xF4
+		) {
 			if (i + 2 < buffer.size()) {
 				m_automation[currentTrack][opcode].push_back(
 					(AutomationEvent) {
@@ -235,7 +242,9 @@ bool JAudio::BMS::Parser::loadFromFile(const std::string &filepath) {
 			opcode == CMD_PAN_SET   ||
 			opcode == CMD_PARAM_SET ||
 			opcode == 0xAC          ||
-			opcode == 0xAD
+			opcode == 0xAD          ||
+			opcode == 0xDD          ||
+			opcode == 0xEF
 		) {
 			if (i + 4 < buffer.size()) {
 				m_automation[currentTrack][opcode].push_back(
@@ -272,7 +281,7 @@ bool JAudio::BMS::Parser::loadFromFile(const std::string &filepath) {
 
 		// Completely unknown or 0x00
 		else {
-			std::cout << "[WARNING]: Came across unhandled opcode `" << OPC << (int)opcode << " at " << PTR << (int)i << std::endl;
+			std::cout << "[WARNING]: Came across unhandled opcode `" << OPC opcode << " at " << PTR i << std::endl;
 			break;
 		}
 	}
@@ -285,7 +294,7 @@ bool JAudio::BMS::Parser::loadFromFile(const std::string &filepath) {
 	// std::cout << std::setfill('0');
 	// for (const auto &[opcode, events] : m_automation) {
 	// 	for (const JAudio::BMS::AutomationEvent &event : events) {
-	// 		std::cout << std::hex << PTR << (int)event.start << ": " << OPC << (int)opcode << " ";
+	// 		std::cout << std::hex << PTR event.start << ": " << OPC opcode << " ";
 
 	// 		for (const u8 &arg : event.args) {
 	// 			std::cout << "'" << std::uppercase << std::setw(2) << (int)arg << "', ";
