@@ -3,6 +3,8 @@ libJAudio is the library that does the heavy-lifting, parsing and converting fil
 # Features
 - View BMS sequence files on a piano roll
 - View automation data of BMS files
+- Rename tracks
+- Mark tracks as percussion (export on MIDI channel 10)
 - Export BMS files as MIDI
 - Bulk export BMS files.
 
