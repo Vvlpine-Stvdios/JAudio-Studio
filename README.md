@@ -1,4 +1,4 @@
-JAudio Studio is a free, open source JAudio file editor. It is currently in development, so "editor" is a bit generous. Currently only support Wind Waker files.
+JAudio Studio is a free, open source JAudio file editor. It is currently in development, so "editor" is perhaps a bit generous. Currently it only supports Wind Waker BMS files with MIDI export.
 libJAudio is the library that does the heavy-lifting, parsing and converting files. It is also free and open-source.
 # Features
 - View BMS sequence files on a piano roll
