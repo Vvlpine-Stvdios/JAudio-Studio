@@ -7,6 +7,7 @@ libJAudio is the library that does the heavy-lifting, parsing and converting fil
 - Mark tracks as percussion (export on MIDI channel 10)
 - Export BMS files as MIDI
 - Bulk export BMS files.
+- Bulk export AFC files as WAV.
 
 # Goals
 - Parse entire Wind Waker JAudio folder

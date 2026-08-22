@@ -28,7 +28,7 @@
 #include <variant>
 
 BulkConverterDialog::BulkConverterDialog(QWidget *parent) : QDialog(parent) {
-	setWindowTitle ("Bulk Convert BMS to MIDI");
+	setWindowTitle ("Bulk Convert Files");
 	resize         (500, 400);
 
 	QVBoxLayout *mainLayout = new QVBoxLayout(this);

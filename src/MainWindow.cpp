@@ -203,7 +203,7 @@ void MainWindow::setupUI() {
 	QAction *quit           = new QAction        ("&Quit",           this);
 
 	QMenu   *convertMenu    = menuBar()->addMenu ("&Convert");
-	QAction *bulkConvertBMS = new QAction        ("&Bulk Convert BMS to MIDI", this);
+	QAction *bulkConvertBMS = new QAction        ("&Bulk Convert Files", this);
 	
 	QMenu   *helpMenu       = menuBar()->addMenu ("&Help");
 	QAction *about          = new QAction        ("&About",    this);
