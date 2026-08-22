@@ -6,7 +6,7 @@
  * 	Project : JAudio Studio
  * 
  *	JAudio Studio - Uses libJAudio to parse and convert JAudio files into standard formats, and displays that data.
- * 	Copyright (C) 2026 Vulpine Studios
+ * 	Copyright (C) 2026 Vvlpine Stvdios
  * 
  ********************************************************************************************************************/
 
@@ -27,10 +27,15 @@
 
 #include <iostream>
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), m_parser(nullptr), m_exporter(nullptr) {
 	setWindowTitle ("JAudio Studio");
 	resize         (1000, 700);
 	setupUI        ();
+}
+
+MainWindow::~MainWindow() {
+	delete m_parser;
+	delete m_exporter;
 }
 
 void MainWindow::setupUI() {
@@ -237,7 +242,7 @@ void MainWindow::setupUI() {
 	connect(quit, &QAction::triggered, qApp, &QCoreApplication::quit);
 
 	connect(about,   &QAction::triggered, this, [this]() { QMessageBox::about   (this, "About JAudio Studio & libJAudio",
-		QString("by Vulpine Studios\nVersion %1 - %2\nJAudio %3 - %4\nQt %5 - %6")
+		QString("by Vvlpine Stvdios\nVersion %1 - %2\nJAudio %3 - %4\nQt %5 - %6")
 			.arg(JAUDIO_STUDIO_VERSION_STR)
 			.arg(JAUDIO_STUDIO_COPYRIGHT)
 			.arg(LIBJAUDIO_VERSION_STR)
@@ -287,7 +292,8 @@ void MainWindow::onFileSelected(const QString &filePath) {
 
 	// Push the parsing onto a background thread
 	QFuture<bool> future = QtConcurrent::run([this, filePath] () {
-		return m_parser.loadFromFile(filePath.toStdString());
+		m_parser = new JAudio::BMS::Parser();
+		return m_parser->loadFromFile(filePath.toStdString(), m_data);
 	});
 
 	m_openWatcher.setFuture(future);
@@ -297,20 +303,26 @@ void MainWindow::onFileParsed() {
 	bool success = m_openWatcher.result();
 
 	if (success) {
-		setWindowTitle    ("JAudio Studio — " + m_fileInfo.fileName());
-		setWindowFilePath (m_fileInfo.filePath());
+		if (std::holds_alternative<JAudio::BMS::Sequence>(m_data)) {
+			const JAudio::BMS::Sequence &sequenceData = std::get<JAudio::BMS::Sequence>(m_data);
 
-		m_stackedWidget -> setCurrentIndex (2);
-		m_pianoRoll     -> setPPQN         (m_parser.getPPQN());
-		m_automationTab -> setPPQN         (m_parser.getPPQN());
+			setWindowTitle    ("JAudio Studio — " + m_fileInfo.fileName());
+			setWindowFilePath (m_fileInfo.filePath());
 
-		for (const int &track : m_parser.getTracks()) {
-			QString name = QString("%1").arg(track);
-			m_trackList        -> addItem   (                                  name               );
-			m_trackDataDisplay -> addWidget (new TrackInfoDisplay(this, track, name.toStdString()));
-		}
+			m_stackedWidget -> setCurrentIndex (2);
+			m_pianoRoll     -> setPPQN         (sequenceData.PPQN);
+			m_automationTab -> setPPQN         (sequenceData.PPQN);
 
-		updateUI();
+			for (const int &track : sequenceData.tracks) {
+				QString name = QString("%1").arg(track);
+				m_trackList        -> addItem   (                                  name               );
+				m_trackDataDisplay -> addWidget (new TrackInfoDisplay(this, track, name.toStdString()));
+			}
+
+			updateUI();
+		}// else if (std::holds_alternative<JAudio::AFC::StreamData>(data)) {
+		// 	const JAudio::AFC::StreamData &streamData = std::get<JAudio::AFC::StreamData>(data);
+		// }
 	} else {
 		m_stackedWidget->setCurrentIndex(1);
 		QMessageBox::critical(this, "Error", "Failed to parse file!");
@@ -327,32 +339,36 @@ void MainWindow::openBulkConverter() {
 }
 
 void MainWindow::updateUI() {
-	bool OK;
-	int  track = m_trackList->currentText().toInt(&OK);
+	if (std::holds_alternative<JAudio::BMS::Sequence>(m_data)) {
+		JAudio::BMS::Sequence sequence = std::get<JAudio::BMS::Sequence>(m_data);
 
-	if (!OK) {
-		if (m_trackList->currentText() == QString("Global")) { track =  255; }
-		else                                                 { track = -1;   }
+		bool OK;
+		int  track = m_trackList->currentText().toInt(&OK);
+
+		if (!OK) {
+			if (m_trackList->currentText() == QString("Global")) { track =  255; }
+			else                                                 { track = -1;   }
+		}
+
+		m_trackDataDisplay->setCurrentIndex(m_trackList->currentIndex());
+
+		// 3 should be the track list
+		int numerator   = 4;
+		int denominator = 4;
+		
+		numerator   = m_timeSignatureNumerator   -> value       ();
+		denominator = m_timeSignatureDenominator -> currentText ().toInt(&OK);
+
+		if (!OK) { denominator = 4; }
+
+		m_pianoRoll     -> setTimeSignature (numerator, denominator);
+		m_automationTab -> setTimeSignature (numerator, denominator);
+		m_pianoRoll     -> populate         (sequence.notes,      track);
+		m_automationTab -> populate         (sequence.automation, track, m_pianoRoll->getSceneWidth());
+
+		// 0xFF is the global track
+		m_tempo->setText(QString("Tempo: %1 BPM").arg(sequence.automation.at(0xFF).at(JAudio::BMS::CMD_TEMPO_SET).begin()->args[1]));
 	}
-
-	m_trackDataDisplay->setCurrentIndex(m_trackList->currentIndex());
-
-	// 3 should be the track list
-	int numerator   = 4;
-	int denominator = 4;
-	
-	numerator   = m_timeSignatureNumerator   -> value       ();
-	denominator = m_timeSignatureDenominator -> currentText ().toInt(&OK);
-
-	if (!OK) { denominator = 4; }
-
-	m_pianoRoll     -> setTimeSignature (numerator, denominator);
-	m_automationTab -> setTimeSignature (numerator, denominator);
-	m_pianoRoll     -> populate         (m_parser.getNotes      (), track);
-	m_automationTab -> populate         (m_parser.getAutomation (), track, m_pianoRoll->getSceneWidth());
-
-	// 0xFF is the global track
-	m_tempo->setText(QString("Tempo: %1 BPM").arg(m_parser.getAutomation().at(0xFF).at(JAudio::BMS::CMD_TEMPO_SET).begin()->args[1]));
 }
 
 void MainWindow::openExportBrowser() {
@@ -379,7 +395,8 @@ void MainWindow::exportCurrentToMIDI(const QString &filePath) {
 	}
 
 	QFuture<bool> future = QtConcurrent::run([this, filePath, trackInfos] () {
-		return m_exporter.exportToFile(filePath.toStdString(), m_parser, trackInfos);
+		m_exporter = new MIDI::Exporter();
+		return m_exporter->exportToFile(filePath.toStdString(), m_data, trackInfos);
 	});
 
 	m_exportWatcher.setFuture(future);

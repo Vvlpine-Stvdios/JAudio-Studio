@@ -1,8 +1,8 @@
 /********************************************************************************************************************
  * 
  * 	Author  : Burke Weston
- * 	Date    : 2026/08/10
- * 	File    : JAudio/BMS/midiexporter.hpp
+ * 	Date    : 2026/08/20
+ * 	File    : JAudio/AFC/waveexporter.hpp
  * 	Project : libJAudio
  * 
  *	libJAudio - Parses and converts JAudio files into standard formats.
@@ -14,23 +14,13 @@
 
 #include <JAudio/Core/Types>
 #include <JAudio/Core/Bases>
-#include <JAudio/BMS/Parser>
 
-#include <fstream>
-#include <string>
-#include <vector>
-#include <concepts>
+namespace PCM {
 
-namespace MIDI {
-
-	class Exporter : public JAudio::Core::IExporter {
-
+	class WAVEExporter : JAudio::Core::IExporter {
 		public:
 			bool exportToFile(const std::string &filePath, const JAudio::Core::ParsedData &parsedData, const JAudio::Core::ExportData &exportData) override;
-		
-		private:
-			void writeMIDITrack      (std::vector<u8> &buffer, const std::vector<JAudio::BMS::NoteEvent> &events, const TrackInfo &trackInfo);
-			void writeVariableLength (std::vector<u8> &trackBuffer, u32 value);
+
 	};
 
 };

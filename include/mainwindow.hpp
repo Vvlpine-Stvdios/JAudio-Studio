@@ -6,7 +6,7 @@
  * 	Project : JAudio Studio
  * 
  *	JAudio Studio - Uses libJAudio to parse and convert JAudio files into standard formats, and displays that data.
- * 	Copyright (C) 2026 Vulpine Studios
+ * 	Copyright (C) 2026 Vvlpine Stvdios
  * 
  ********************************************************************************************************************/
 
@@ -37,7 +37,7 @@ class MainWindow : public QMainWindow {
 
 	public:
 		explicit MainWindow(QWidget *parent = nullptr);
-	   ~MainWindow() override = default;
+	   ~MainWindow();
 
 	    void open(const QString &filePath);
 	
@@ -56,8 +56,9 @@ class MainWindow : public QMainWindow {
 		void setupUI  ();
 		void updateUI ();
 
-		JAudio::BMS::Parser   m_parser;
-		MIDI       ::Exporter m_exporter;
+		JAudio::Core::IParser   *m_parser;
+		JAudio::Core::ParsedData m_data;
+		JAudio::Core::IExporter *m_exporter;
 
 		QFutureWatcher<bool> m_openWatcher;
 		QFutureWatcher<bool> m_exportWatcher;

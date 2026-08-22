@@ -23,7 +23,7 @@ JAudio Studio and libJAudio are both licensed under GPL version 3.0. See the [LI
 The build system for JAudio Studio and libJAudio is CMake with C++23. JAudio Studio uses the Qt graphics framework. Make sure both are properly installed.
 To get the repository, run the following:
 ```bash
-git clone https://github.com/Vulpine-Studios/JAudio-Studio.git
+git clone https://github.com/Vvlpine-Stvdios/JAudio-Studio.git
 cd JAudio-Studio
 ```
 To build, run the following:

@@ -6,7 +6,7 @@
  * 	Project : JAudio Studio
  * 
  *	JAudio Studio - Uses libJAudio to parse and convert JAudio files into standard formats, and displays that data.
- * 	Copyright (C) 2026 Vulpine Studios
+ * 	Copyright (C) 2026 Vvlpine Stvdios
  * 
  ********************************************************************************************************************/
 
@@ -20,8 +20,12 @@
 
 #include <JAudio/BMS/Parser>
 #include <JAudio/BMS/MIDIExporter>
+#include <JAudio/AFC/Decoder>
+#include <JAudio/AFC/WAVEExporter>
 
 #include <string>
+#include <iostream>
+#include <variant>
 
 BulkConverterDialog::BulkConverterDialog(QWidget *parent) : QDialog(parent) {
 	setWindowTitle ("Bulk Convert BMS to MIDI");
@@ -32,6 +36,7 @@ BulkConverterDialog::BulkConverterDialog(QWidget *parent) : QDialog(parent) {
 	// 
 	// FILE LIST
 	// 
+
 	mainLayout->addWidget(new QLabel("Source BMS Files", this));
 
 	m_fileList = new QListWidget();
@@ -53,10 +58,11 @@ BulkConverterDialog::BulkConverterDialog(QWidget *parent) : QDialog(parent) {
 	// 
 	mainLayout->addWidget(new QLabel("Destination Folder", this));
 
-	QVBoxLayout *outputLayout = new QVBoxLayout();
+	QHBoxLayout *outputLayout = new QHBoxLayout();
 	QPushButton *browseButton = new QPushButton("Browse...", this);
 
 	m_outputDirectoryEdit = new QLineEdit(this);
+	m_outputDirectoryEdit->setText("./bin/exports/");
 	
 	outputLayout->addWidget(m_outputDirectoryEdit);
 	outputLayout->addWidget(    browseButton     );
@@ -75,10 +81,11 @@ BulkConverterDialog::BulkConverterDialog(QWidget *parent) : QDialog(parent) {
 	// CONVERSION
 	// 
 
-	QVBoxLayout *bottomLayout = new QVBoxLayout();
+	QHBoxLayout *bottomLayout = new QHBoxLayout();
 	QPushButton *closeButton  = new QPushButton("Close", this);
 
 	m_convertButton = new QPushButton("Convert", this);
+	m_convertButton->setDefault(true);
 
 	bottomLayout->addStretch ();
 	bottomLayout->addWidget  (  closeButton  );
@@ -99,9 +106,9 @@ BulkConverterDialog::BulkConverterDialog(QWidget *parent) : QDialog(parent) {
 void BulkConverterDialog::addFiles() {
 	QStringList files = QFileDialog::getOpenFileNames(
 		this,
-		"Select BMS Files",
+		"Select JAudio Files",
 		"",
-		"BMS Files (*.bms)"
+		"BMS Files (*.bms);AFC Files (*.afc)"
 	);
 
 	m_fileList->addItems(files);
@@ -133,30 +140,76 @@ void BulkConverterDialog::startConversion() {
 	m_progressBar->setMaximum (m_fileList->count());
 	m_progressBar->setValue   (0);
 
-	JAudio::BMS::Parser   parser;
-	MIDI       ::Exporter exporter;
+	JAudio::BMS::Parser   BMSParser;
+	MIDI       ::Exporter MIDIExporter;
+
+	JAudio::AFC::Decoder      AFCDecoder;
+	PCM        ::WAVEExporter PCMWAVEExporter;
+
+	std::cout << (int)m_fileList->count() << std::endl;
 
 	for (int i = 0; i < m_fileList->count(); i++) {
 		const QString &filePath = m_fileList->item(i)->text();
 		QFileInfo      info     = QFileInfo(filePath);
-		QString        outPath  = QString("%1/%2.mid")
-			.arg(m_outputDirectoryEdit->text())
-			.arg(info.fileName().replace(".bms", ""));
 
-		parser.loadFromFile(filePath.toStdString());
+		JAudio::Core::ParsedData parsedData;
 
-		std::vector<MIDI::TrackInfo> infos = { };
-
-		for (const int &track : parser.getTracks()) {
-			if (track != 0xFF && track != -1) {
-				infos.push_back((MIDI::TrackInfo) { "Track " + std::to_string(track), false });
+		if (info.suffix() == "bms") {
+			QString outPath = QString("%1/mid/%2.mid")
+				.arg(m_outputDirectoryEdit->text())
+				.arg(info.baseName());
+			
+			if (!QDir().mkpath(QString("%1/%2").arg(m_outputDirectoryEdit->text()).arg("mid"))) {
+				QMessageBox::warning(this, "Failed to create `mid` folder!", "Please make sure this app can modify the export directory.");
+				return;
 			}
+			
+			BMSParser.loadFromFile(filePath.toStdString(), parsedData);
+			std::vector<MIDI::TrackInfo> infos = { };
+
+			if (!std::holds_alternative<JAudio::BMS::Sequence>(parsedData)) {
+				std::cout << "???" << std::endl;
+				return;
+			}
+
+			JAudio::BMS::Sequence sequence = std::get<JAudio::BMS::Sequence>(parsedData);
+
+			for (const int &track : sequence.tracks){
+				if (track != 0xFF && track != -1) {
+					infos.push_back((MIDI::TrackInfo) { "Track " + std::to_string(track), false });
+				}
+			}
+
+			MIDIExporter.exportToFile(outPath.toStdString(), sequence, infos);
+
+		} else if (info.suffix() == "afc") {
+			QString outPath = QString("%1/wav/%2.wav")
+				.arg(m_outputDirectoryEdit->text())
+				.arg(info.baseName());
+			
+			if (!QDir().mkpath(QString("%1/%2").arg(m_outputDirectoryEdit->text()).arg("wav"))) {
+				QMessageBox::warning(this, "Failed to create `wav` folder!", "Please make sure this app can modify the export directory.");
+				return;
+			}
+
+			AFCDecoder.loadFromFile(filePath.toStdString(), parsedData);
+			
+			if (!std::holds_alternative<JAudio::AFC::Stream>(parsedData)) {
+				std::cout << "???" << std::endl;
+				return;
+			}
+
+			JAudio::AFC::Stream      stream = std::get<JAudio::AFC::Stream>(parsedData);
+			JAudio::Core::ExportData nothing;
+
+			PCMWAVEExporter.exportToFile(outPath.toStdString(), stream, nothing);
 		}
 
-		exporter.exportToFile(outPath .toStdString(), parser, infos);
-
 		m_progressBar->setValue(m_progressBar->value() + 1);
+
+		std::cout << "Successfully converted " << info.baseName().toStdString() << std::endl;
 	}
 
+	QMessageBox::information(this, "Success!", "Successfully converted all files!");
 	close();
 }

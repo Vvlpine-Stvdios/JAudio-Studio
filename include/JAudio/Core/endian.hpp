@@ -6,7 +6,7 @@
  * 	Project : libJAudio
  * 
  *	libJAudio - Parses and converts JAudio files into standard formats.
- * 	Copyright (C) 2026 Vulpine Studios
+ * 	Copyright (C) 2026 Vvlpine Stvdios
  * 
  ********************************************************************************************************************/
 
@@ -38,5 +38,10 @@ namespace JAudio::Core {
 
 		return out;
 	}
+
+	enum ENDIAN {
+		BIG,
+		LITTLE
+	};
 
 };

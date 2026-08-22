@@ -6,10 +6,10 @@
 # 	Project : JAudio Studio
 #  
 #	libJAudio - Parses and converts JAudio files into standard formats.
-# 	Copyright (C) 2026 Vulpine Studios
+# 	Copyright (C) 2026 Vvlpine Stvdios
 #
 #	JAudio Studio - Uses libJAudio to parse and convert JAudio files into standard formats, and displays that data.
-#	Copyright (C) 2026 Vulpine Studios
+#	Copyright (C) 2026 Vvlpine Stvdios
 # 
 #*******************************************************************************************************************#
 
@@ -35,15 +35,22 @@ find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Concurrent)
 ## --- JAUDIO LIBRARY --- ##
 add_library(
 	JAudio SHARED
-	# JAudio/AAF
-	JAudio/Core/types.cpp
+	JAudio/Core/Types.cpp
+	JAudio/ADPCM/ADPCM.cpp
+	JAudio/AFC/Decoder.cpp
+	JAudio/AFC/WAVEExporter.cpp
 	JAudio/BMS/Parser.cpp
 	JAudio/BMS/MIDIExporter.cpp
 	include/JAudio/Core/endian.hpp
 	include/JAudio/Core/types.hpp
-	include/JAudio/BMS/commands.hpp
+	include/JAudio/Core/bases.hpp
+	include/JAudio/Core/io.hpp
+	include/JAudio/Core/config.hpp
 	include/JAudio/BMS/parser.hpp
 	include/JAudio/BMS/midiexporter.hpp
+	include/JAudio/AFC/decoder.hpp
+	include/JAudio/AFC/waveexporter.hpp
+	include/JAudio/ADPCM/adpcm.hpp
 )
 
 target_include_directories(JAudio PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -64,6 +71,7 @@ add_executable(
 	include/bulkconverterdialog.hpp
 	include/automationtab.hpp
 	include/trackinfodisplay.hpp
+	include/config.hpp
 )
 
 set_target_properties(JAudioStudio PROPERTIES

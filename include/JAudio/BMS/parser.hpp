@@ -6,12 +6,12 @@
  * 	Project : libJAudio
  * 
  *	libJAudio - Parses and converts JAudio files into standard formats.
- * 	Copyright (C) 2026 Vulpine Studios
+ * 	Copyright (C) 2026 Vvlpine Stvdios
  * 
  ********************************************************************************************************************/
 #pragma once
 
-#include <JAudio/BMS/Commands>
+#include <JAudio/Core/Bases>
 
 #include <cstdint>
 #include <string>
@@ -45,35 +45,9 @@ namespace JAudio::BMS {
 		CMD_END_TRACK           = 0xFF,
 	};
 
-	struct NoteEvent {
-		int start;
-		int duration;
-		u8  track;
-		u8  note;
-		u8  voice;
-		u8  velocity;
-	};
-
-	struct AutomationEvent {
-		int             start;
-		std::vector<u8> args;
-	};
-
-	class Parser {
-
+	class Parser : public JAudio::Core::IParser {
 		public:
-			bool loadFromFile(const std::string &filepath);
-
-			const std::vector<NoteEvent>                     &getNotes                    () const { return m_notes;      }
-			const std::map<u8, std::map<u8, std::vector<AutomationEvent>>> &getAutomation () const { return m_automation; }
-			const std::vector<u8>                            &getTracks                   () const { return m_tracks;     }
-			const int                                        &getPPQN                     () const { return m_ppqn;       }
-		
-		private:
-			std::vector<NoteEvent>                                   m_notes;
-			std::map<u8, std::map<u8, std::vector<AutomationEvent>>> m_automation;
-			std::vector<u8>                                          m_tracks;
-			int                                                      m_ppqn;
+			bool loadFromFile(const std::string &filePath, JAudio::Core::ParsedData &outData) override;
 
 	};
 
