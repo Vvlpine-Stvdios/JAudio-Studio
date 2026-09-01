@@ -1,0 +1,41 @@
+name: "Documentation Correction"
+description: "Report faulty, misleading, unclear, or incorrect information; or add missing information."
+title: "[Docs] <simple description of issue>"
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve the JAudio format specifications! Please provide as much detail as possible (within reason, of course!).
+  - type: input
+    id: page
+    attributes:
+      label: "Which document needs correction?"
+      description: "This can be a full page, specific structure, &c."
+      placeholder: "JaiInit.aaf.md"
+    validations:
+      required: true
+  - type: textarea
+    id: error_description
+    attributes:
+      label: "What is currently incorrect/missing?"
+      description: "Explain what the documentation is getting wrong."
+      placeholder: "Um, *pushes glasses up nose* you are big dumb and the whole site is wrong! *contiues pushing glasses up nose* (okay please don't do this lol :| )"
+    validations:
+      required: true
+  - type: textarea
+    id: proposed_fix
+    attributes:
+      label: "Proposed Correction"
+      description: "What do you recommend changing/adding/removing?"
+      placeholder: "Uh, um, uh, NUKE THE WHOLE SITE! (this is a joke please don't suggest this ): )"
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: "Hex Dump / Evidence (Optional)"
+      description: "If you have any evidence to back up your claim, please put it here (if possible)."
+      render: shell
+    validations:
+      required: false
