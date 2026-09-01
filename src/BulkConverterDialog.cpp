@@ -37,7 +37,7 @@ BulkConverterDialog::BulkConverterDialog(QWidget *parent) : QDialog(parent) {
 	// FILE LIST
 	// 
 
-	mainLayout->addWidget(new QLabel("Source BMS Files", this));
+	mainLayout->addWidget(new QLabel("Source Files", this));
 
 	m_fileList = new QListWidget();
 	m_fileList->setSelectionMode(QAbstractItemView::ExtendedSelection);
@@ -108,7 +108,7 @@ void BulkConverterDialog::addFiles() {
 		this,
 		"Select JAudio Files",
 		"",
-		"BMS Files (*.bms);AFC Files (*.afc)"
+		"JAudio Files (*.bms *.afc)"
 	);
 
 	m_fileList->addItems(files);

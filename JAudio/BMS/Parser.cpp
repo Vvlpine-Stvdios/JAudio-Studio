@@ -55,11 +55,8 @@ bool JAudio::BMS::Parser::loadFromFile(const std::string &filePath, JAudio::Core
 
 	std::cout << "Reading..." << std::endl;
 
-	int prevI = -1;
 	while (i < buffer.size() && !error) {
 		u8 opcode = buffer[i];
-
-		std::cout << PTR i << ": " << OPC opcode << std::endl;
 
 		if (CMD_NOTE_ON_BEGIN <= opcode && opcode <= CMD_NOTE_ON_END) {
 			// Sanity check

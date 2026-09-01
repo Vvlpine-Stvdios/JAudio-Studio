@@ -10,5 +10,4 @@
 .DS_Store
 .vscode
 cmake
-bin/exports
-bin/imports
+bin
