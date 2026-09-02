@@ -20,7 +20,7 @@ body:
     attributes:
       label: "What is currently incorrect/missing?"
       description: "Explain what the documentation is getting wrong."
-      placeholder: "Um, *pushes glasses up nose* you are big dumb and the whole site is wrong! *contiues pushing glasses up nose* (okay please don't do this lol :| )"
+      placeholder: "Um, *pushes glasses up nose* you are big dumb and the whole site is wrong! *contiues pushing glasses up nose* (okay please don\u2019t do this lol :| )"
     validations:
       required: true
   - type: textarea
@@ -28,7 +28,7 @@ body:
     attributes:
       label: "Proposed Correction"
       description: "What do you recommend changing/adding/removing?"
-      placeholder: "Uh, um, uh, NUKE THE WHOLE SITE! (this is a joke please don't suggest this ): )"
+      placeholder: "Uh, um, uh, NUKE THE WHOLE SITE! (this is a joke please don\u2019t suggest this ): )"
     validations:
       required: true
   - type: textarea

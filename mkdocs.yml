@@ -1,0 +1,54 @@
+site_name: JAudio Studio
+site_url: https://vvlpine-stvdios.github.io/JAudio-Studio/
+repo_url: https://github.com/Vvlpine-Stvdios/JAudio-Studio
+theme:
+  name: material
+  palette:
+    # Dark Mode
+    - scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to Light Mode
+      primary: deep orange
+      accent: deep purple
+
+    # Light Mode
+    - scheme: default
+      toggle:
+        icon: material/weather-night
+        name: Switch to Dark Mode
+      primary: deep orange
+      accent: deep purple
+
+  font:
+    text: Roboto
+    code: Fira Code
+  
+  # icon:
+  #  logo: 
+  # favicon: 
+  features:
+    - navigation.footer
+
+markdown_extensions:
+  - footnotes
+  - admonition
+  - pymdownx.details
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+extra_css:
+  - stylesheets/header.css
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js

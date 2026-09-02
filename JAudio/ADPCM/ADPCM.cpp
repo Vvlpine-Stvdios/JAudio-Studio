@@ -21,7 +21,6 @@ void ADPCM::Decoder::decodeFrame(const ADPCM::Frame &frame, ADPCM::History &hist
 
 	for (int i = 0; i < 16; i++) {
 		int32_t sample = frame[i];
-		// if (sample >= 8) { sample -= 16; }
 
 		sample = (sample * scale) << 11;
 		sample = (sample + history.predict(coefficients[frame.predicatorIndex()])) >> 11;

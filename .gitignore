@@ -11,3 +11,4 @@
 .vscode
 cmake
 bin
+.venv
