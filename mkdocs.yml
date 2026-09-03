@@ -1,6 +1,10 @@
+# Site Info
 site_name: JAudio Studio
 site_url: https://vvlpine-stvdios.github.io/JAudio-Studio/
 repo_url: https://github.com/Vvlpine-Stvdios/JAudio-Studio
+repo_name: JAudio Studio
+copyright: Copyright &copy; Vvlpine Stvdios
+# Themes
 theme:
   name: material
   palette:
@@ -28,24 +32,34 @@ theme:
   #  logo: 
   # favicon: 
   features:
+    - content.tabs.link
+    - content.tooltips
+
+    - navigation.expand
     - navigation.footer
+    - navigation.path
+    - navigation.top
+    - navigation.tracking
+
+    - toc.follow
+    - toc.integrate
 
 markdown_extensions:
-  - footnotes
   - admonition
-  - pymdownx.details
+  - footnotes
   - pymdownx.caret
+  - pymdownx.details
   - pymdownx.mark
   - pymdownx.tilde
+
   - pymdownx.tabbed:
       alternate_style: true
+
   - pymdownx.arithmatex:
       generic: true
-  - pymdownx.superfences:
-      custom_fences:
-        - name: mermaid
-          class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
+
+
+
 extra_css:
   - stylesheets/header.css
 

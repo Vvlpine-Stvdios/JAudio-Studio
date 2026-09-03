@@ -1,4 +1,4 @@
-<h1 style="text-align: center;">Welcome to the JAudio Studio Documentation Page</h1>
+<h1 style="text-align: center;">Welcome to the JAudio Studio Documentation Page!</h1>
 
 Right now this is just kind of a placeholder while I’m still working on things.
 

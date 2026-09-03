@@ -7,3 +7,7 @@
 
 ## General Overview
 AW (Audio Wave) archives only store raw sample data. They are completely headerless, and as such have little use unless one has the [JaiInit.aaf](./JaiInit.aaf.md) file, as it documents all of the header data in the [WAVE](./JaiInit.aaf.md/#wave) struct.
+
+## Decoding
+AW files can either use PCM, where they store the raw amplitudes of the audio data, or ADPCM, where they use math to predict the next wave and only record the error.
+For information regarding how ADPCM works, go to the [AFC](./AFC.md/#math) page.
