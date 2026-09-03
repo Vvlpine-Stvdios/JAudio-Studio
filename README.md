@@ -17,9 +17,8 @@ libJAudio is the library that does the heavy-lifting, parsing and converting fil
 - Add tabs to edit multiple files at once
 - Make it look good
 
-
 # Site
-All documentation for the JAudio formats (and eventually the tool itself) is currently live at [https://vvlpine-stvdios.github.io/JAudio-Studio/](https://vvlpine-stvdios.github.io/JAudio-Studio/)!
+All documentation for the JAudio formats (and eventually the tool itself) is currently live at [here](https://vvlpine-stvdios.github.io/JAudio-Studio/)!
 
 # License
 JAudio Studio and libJAudio are both licensed under GPL version 3.0. See the [LICENSE](license) for details.
