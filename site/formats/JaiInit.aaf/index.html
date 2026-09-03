@@ -1,0 +1,1877 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://vvlpine-stvdios.github.io/JAudio-Studio/formats/JaiInit.aaf/">
+      
+      
+        <link rel="prev" href="../BMS/">
+      
+      
+        <link rel="next" href="../JaiSeqs.arc/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>JaiInit.aaf - JAudio Studio</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CFira+Code:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Fira Code"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/header.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="deep-orange" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#general-overview" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="JAudio Studio" class="md-header__button md-logo" aria-label="JAudio Studio" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            JAudio Studio
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              JaiInit.aaf
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-orange" data-md-color-accent="deep-purple"  aria-label="Switch to Light Mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to Light Mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="deep-purple"  aria-label="Switch to Dark Mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to Dark Mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Vvlpine-Stvdios/JAudio-Studio" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    JAudio Studio
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="JAudio Studio" class="md-nav__button md-logo" aria-label="JAudio Studio" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    JAudio Studio
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Vvlpine-Stvdios/JAudio-Studio" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    JAudio Studio
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Formats
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Formats
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AFC/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AFC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AW
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BMS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BMS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    JaiInit.aaf
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    JaiInit.aaf
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#general-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        General Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#types-terminology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Types &amp; Terminology
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generic-headers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generic Headers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bst" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BST
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ibnk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IBNK
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="IBNK">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bank" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BANK
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inst" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INST
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INST">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#oscillator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Oscillator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vector-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vector Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyboard-section" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyboard Section
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#velocity-region" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Velocity Region
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PER2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PER2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#drum-region" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Drum Region
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wsys" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WSYS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="WSYS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#winf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WINF
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="WINF">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wave-group" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wave Group
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wave" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WAVE
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wbct" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WBCT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="WBCT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scne" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SCNE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-df-c-ex-and-c-st" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C-DF, C-EX, and C-ST
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#waveid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WAVEID
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bsm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BSM
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SCL
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ssc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SSC
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../JaiSeqs.arc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    JaiSeqs.arc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../types-and-terminology/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Types and terminology
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../AFC/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Formats
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 style="text-align: center;">JaiInit.aaf</h1>
+
+<div class="admonition warning">
+<p class="admonition-title">Warning!</p>
+<p>This site is still under construction, and not all data is known (to me, at least).
+If you find the documentation in this faulty, misguiding, unclear, or straight missing information, please submit a <a href="https://github.com/Vvlpine-Stvdios/JAudio-Studio/issues/new?template=documentation_correction.yml">documentation issue</a>!
+THIS SITE IS CURRENTLY DOCUMENTING JAUDIO VERSION <strong><em><u>1</u></em></strong>. If you want information regarding JAudio Version 2, please go to <a href="https://www.lumasworkshop.com/wiki/Main_Page">Luma’s Workshop</a>.</p>
+</div>
+<h2 id="general-overview">General Overview</h2>
+<p>The JaiInit.aaf file is main information file pertaining to all things streamed audio, including file names and headers for both the <a href="../AW/">AW</a> (instrument bank) files and the <a href="../AFC/">AFC</a> (streamed audio) files, as well as what goes with which instrument, &amp;c.</p>
+<h2 id="types-terminology">Types &amp; Terminology</h2>
+<p>Throughout this I will refer to different types and user certain terms that. If you come across any term you do not know, check the <a href="../types-and-terminology/">Types and Terminology Page</a>.</p>
+<h2 id="generic-headers">Generic Headers</h2>
+<p>Each major section of this file is delineated by a generic header structure as follows:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>u32</code></td>
+<td>ID</td>
+<td>Each ID corresponds to a different <a href="#section-table">section</a></td>
+</tr>
+<tr>
+<td><code>u32 *</code></td>
+<td>Pointer</td>
+<td>The location where this section is to be found</td>
+</tr>
+<tr>
+<td><code>u32</code></td>
+<td>Size</td>
+<td>The size of this section</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">ID</th>
+<th><span id="section-table">Section</section></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">0</td>
+<td>EOF<sup id="fnref3:1"><a class="footnote-ref" href="#fn:1">1</a></sup></td>
+</tr>
+<tr>
+<td style="text-align: right;">1</td>
+<td><a href="#bst">BST</a></td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td><a href="#ibnk">IBNKs</a></td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td><a href="#wsys">WSYSs</a></td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td>BSC<sup id="fnref4:1"><a class="footnote-ref" href="#fn:1">1</a></sup></td>
+</tr>
+<tr>
+<td style="text-align: right;">5</td>
+<td><a href="#bsm">BSM</a></td>
+</tr>
+<tr>
+<td style="text-align: right;">6</td>
+<td><a href="#scl">SCL</a><sup id="fnref5:1"><a class="footnote-ref" href="#fn:1">1</a></sup></td>
+</tr>
+<tr>
+<td style="text-align: right;">7</td>
+<td><a href="#ssc">SSC</a><sup id="fnref6:1"><a class="footnote-ref" href="#fn:1">1</a></sup></td>
+</tr>
+</tbody>
+</table>
+<h2 id="bst">BST</h2>
+<p>The BST (Binary Sound Table) is a container for all of the parameters for music and sound effects. Exactly how it functions, I am not entire sure yet.</p>
+<h2 id="ibnk">IBNK</h2>
+<p>The IBNK (Instrument Bank) is exactly what it sounds like; a giant container for all of the instrument data for some collection of instruments.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>char[4]</code></td>
+<td>Magic</td>
+<td>‘IBNK’ in ASCII</td>
+</tr>
+<tr>
+<td><code>u32</code></td>
+<td>Size</td>
+<td></td>
+</tr>
+<tr>
+<td><code>u32</code></td>
+<td>Bank ID</td>
+<td></td>
+</tr>
+<tr>
+<td><code>u32</code></td>
+<td>Bank Version<sup id="fnref7:1"><a class="footnote-ref" href="#fn:1">1</a></sup></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="bank">BANK</h3>
+<p>IBNKs are always followed by 16 bytes of padding before the BANK structure:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>char[4]</code></td>
+<td>Magic</td>
+<td>‘BANK’ in ASCII</td>
+</tr>
+<tr>
+<td><code>(u32 *)[n]</code></td>
+<td><a href="#inst">INST</a> / <a href="#per2">PER2</a> Pointers<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup></td>
+<td>There are at most 243 of these. If there is a specific point where the INST pointers stop and the PER2 pointers begin, I do not know. Ignored when 0.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="inst">INST</h3>
+<p>Each INST (Instrument) structure contains basic information about the instrument and where to find its stuff.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>char[4]</code></td>
+<td>Magic</td>
+<td>‘INST’ in ASCII</td>
+</tr>
+<tr>
+<td><code>u32</code></td>
+<td>Unknown</td>
+<td></td>
+</tr>
+<tr>
+<td><code>f32</code></td>
+<td>Global Volume</td>
+<td>Multiplier (%)</td>
+</tr>
+<tr>
+<td><code>f32</code></td>
+<td>Global Pitch</td>
+<td>Multiplier (%)</td>
+</tr>
+<tr>
+<td><code>u32 *</code></td>
+<td><a href="#oscillator">Oscillator</a> Pointer</td>
+<td></td>
+</tr>
+<tr>
+<td><code>u32[5]</code></td>
+<td>Unknown</td>
+<td>Likely padding</td>
+</tr>
+<tr>
+<td><code>u32</code></td>
+<td>Number of Keyboard Sections</td>
+<td><code>n</code></td>
+</tr>
+<tr>
+<td><code>(u32 *)[n]</code></td>
+<td><a href="#keyboard-section">Keyboard Section</a> Pointers<sup id="fnref2:2"><a class="footnote-ref" href="#fn:2">2</a></sup></td>
+<td>One pointer for each of the <code>n</code> keyboard sections</td>
+</tr>
+</tbody>
+</table>
+<h4 id="oscillator">Oscillator</h4>
+<p>Oscillators are used for modulation and ADSR (or some form of that).</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>u32</code></td>
+<td>Target</td>
+<td>What the oscillator controls: <ol start="0"><li>Volume</li><li>Pitch</li><li>Pan</li></ol></td>
+</tr>
+<tr>
+<td><code>f32</code></td>
+<td>Rate</td>
+<td>Envelope speed multiplier</td>
+</tr>
+<tr>
+<td><code>u32 *</code></td>
+<td><a href="#vector-table">Attack</a> Pointer<sup id="fnref3:2"><a class="footnote-ref" href="#fn:2">2</a></sup></td>
+<td>The pointer to the <a href="#vector-table">vector table</a> holding the information for the attack/sustain/decay</td>
+</tr>
+<tr>
+<td><code>u32 *</code></td>
+<td><a href="#vector-table">Release</a> Pointer<sup id="fnref4:2"><a class="footnote-ref" href="#fn:2">2</a></sup></td>
+<td>The pointer to the <a href="#vector-table">vector table</a> holding the information for the release</td>
+</tr>
+<tr>
+<td><code>f32</code></td>
+<td>Width</td>
+<td>Modulation depth</td>
+</tr>
+<tr>
+<td><code>u32</code></td>
+<td>Vertex Count</td>
+<td>Populated by engine at run time<sup id="fnref8:1"><a class="footnote-ref" href="#fn:1">1</a></sup></td>
+</tr>
+<tr>
+<td><code>u8[8]</code></td>
+<td>Padding</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="vector-table">Vector Table</h4>
+<p>These are simply an (x, y) plot of points relating to envelope curves.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>u16</code></td>
+<td>Mode</td>
+<td>The type of curve / command:<ol start="0" style="margin-bottom: 0;"><li>Linear</li><li>Square</li><li>Root</li><li>SampleCell</li></ol><ol type="A" start="5" style="margin-top: 0;"><li>Hold</li><li>Stop</li></ol></td>
+</tr>
+<tr>
+<td><code>u16</code></td>
+<td>Time</td>
+<td>Measured in ticks</td>
+</tr>
+<tr>
+<td><code>u16</code></td>
+<td>Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="keyboard-section">Keyboard Section</h4>
+<p>These provide information regarding which sample(s) to use for a given range of keys. For those experienced with samplers, you might have heard these called <em>zones</em>.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>u8</code></td>
+<td>Highest Key</td>
+<td>Defines the highest key of this zone. 0x00 is C-1, 0x3C is C4, 0x7F is G9</td>
+</tr>
+<tr>
+<td><code>u8[3]</code></td>
+<td>Padding</td>
+<td></td>
+</tr>
+<tr>
+<td><code>u32</code></td>
+<td>Velocity Region Count</td>
+<td><code>n</code></td>
+</tr>
+<tr>
+<td><code>(u32 *)[n]</code></td>
+<td><a href="#velocity-region">Velocity Region</a> Pointers<sup id="fnref5:2"><a class="footnote-ref" href="#fn:2">2</a></sup></td>
+<td>One pointer for each of the <code>n</code> velocity regions.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="velocity-region">Velocity Region</h4>
+<p>These provide information regarding which sample to use for a given range of velocities.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>u8</code></td>
+<td>Highest Velocity</td>
+<td>Defines the highest velocity of this region. 0x00 is 0, 0x7F is 127.</td>
+</tr>
+<tr>
+<td><code>u8[3]</code></td>
+<td>Padding</td>
+<td></td>
+</tr>
+<tr>
+<td><code>u16</code></td>
+<td>Bank ID</td>
+<td>Assumed based off of v2 documentation; is unverified.</td>
+</tr>
+<tr>
+<td><code>u16</code></td>
+<td>Wave ID</td>
+<td>Assumed based off of v2 documentation; is unverified.</td>
+</tr>
+<tr>
+<td><code>f32</code></td>
+<td>Volume</td>
+<td></td>
+</tr>
+<tr>
+<td><code>f32</code></td>
+<td>Pitch</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="per2">PER2</h3>
+<p>PER2s (Percussion [no idea what the 2’s for]) work the same way as INST structures, except they remove unneeded information.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>char[4]</code></td>
+<td>Magic</td>
+<td>‘PER2’ in ASCII</td>
+</tr>
+<tr>
+<td><code>(u32 *)[128]</code></td>
+<td><a href="#drum-region">Drum Region</a> Pointers<sup id="fnref6:2"><a class="footnote-ref" href="#fn:2">2</a></sup></td>
+<td>One for each key of the keyboard. Ignored when 0.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="drum-region">Drum Region</h4>
+<p>These are quite similar to INST structures, but since the PER2 allocates one pointer per key, keyboard sections are forwent in favor of directly pointing to velocity regions.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>f32</code></td>
+<td>Global Volume</td>
+<td></td>
+</tr>
+<tr>
+<td><code>f32</code></td>
+<td>Global Pitch</td>
+<td></td>
+</tr>
+<tr>
+<td><code>u32[2]</code></td>
+<td>Unknown</td>
+<td>Might be FX</td>
+</tr>
+<tr>
+<td><code>u32</code></td>
+<td>Velocity Region Count</td>
+<td><code>n</code></td>
+</tr>
+<tr>
+<td><code>(u32 *)[n]</code></td>
+<td><a href="#velocity-region">Velocity Region</a> Pointers<sup id="fnref7:2"><a class="footnote-ref" href="#fn:2">2</a></sup></td>
+<td>One pointer for each of the <code>n</code> velocity regions</td>
+</tr>
+</tbody>
+</table>
+<h2 id="wsys">WSYS</h2>
+<p>The WSYS (Wave System) contains all of the header and reference data for samples. Each begins with a simple header that points to an amalgamation of other things.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>char[4]</code></td>
+<td>Magic</td>
+<td>‘WSYS’ in ASCII</td>
+</tr>
+<tr>
+<td><code>u32</code></td>
+<td>Size</td>
+<td></td>
+</tr>
+<tr>
+<td><code>u32</code></td>
+<td>ID</td>
+<td></td>
+</tr>
+<tr>
+<td><code>u32</code></td>
+<td>Wave Count</td>
+<td></td>
+</tr>
+<tr>
+<td><code>u32 *</code></td>
+<td><a href="#winf">WINF</a> Pointer<sup id="fnref8:2"><a class="footnote-ref" href="#fn:2">2</a></sup></td>
+<td></td>
+</tr>
+<tr>
+<td><code>u32 *</code></td>
+<td><a href="#wbct">WBCT</a> Pointer<sup id="fnref9:2"><a class="footnote-ref" href="#fn:2">2</a></sup></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="winf">WINF</h3>
+<p>The WINF (Wave Info) just contains the pointers to <a href="#wave-group">Wave Groups</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>char[4]</code></td>
+<td>Magic</td>
+<td>‘WINF’ in ASCII</td>
+</tr>
+<tr>
+<td><code>u32</code></td>
+<td>Wave Group Count</td>
+<td><code>n</code></td>
+</tr>
+<tr>
+<td><code>(u32 *)[n]</code></td>
+<td><a href="#wave-group">Wave Group</a> Pointers<sup id="fnref10:2"><a class="footnote-ref" href="#fn:2">2</a></sup></td>
+<td>One pointer for each of the <code>n</code> Wave Groups.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="wave-group">Wave Group</h4>
+<p>Wave Groups contain the name of the archive file that contains the sample information and pointers to the wave headers.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>char[112]</code></td>
+<td>Archive Name</td>
+<td>112 bytes are always reserved for the file name. Unused bytes are null.</td>
+</tr>
+<tr>
+<td><code>u32</code></td>
+<td>Wave Count</td>
+<td><code>n</code></td>
+</tr>
+<tr>
+<td><code>(u32 *)[n]</code></td>
+<td><a href="#wave">WAVE</a> Pointers<sup id="fnref11:2"><a class="footnote-ref" href="#fn:2">2</a></sup></td>
+<td>One pointer for each of the <code>n</code> WAVEs</td>
+</tr>
+</tbody>
+</table>
+<h4 id="wave">WAVE</h4>
+<p>WAVEs contain the specific sample information such as format and placement in the <a href="../AW/">AW</a> archive files.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>u8</code></td>
+<td>Unknown</td>
+<td>Always 0xFF</td>
+</tr>
+<tr>
+<td><code>u8</code></td>
+<td>Format</td>
+<td>Defines the format of the data: <ol start="0"><li>ADPCM4</li><li>ADPCM2</li><li>PCM8</li><li>PCM16</li></ol></td>
+</tr>
+<tr>
+<td><code>u8</code></td>
+<td>Base Key</td>
+<td>0x00 is C-1, 0x3C is C4, 0x7F is G9</td>
+</tr>
+<tr>
+<td><code>u8</code></td>
+<td>Unknown</td>
+<td>Always 0x00</td>
+</tr>
+<tr>
+<td><code>f32</code></td>
+<td>Sample Rate</td>
+<td>Why is it a float? Good question.</td>
+</tr>
+<tr>
+<td><code>u32 *</code></td>
+<td>AW Offset Start</td>
+<td>Pointer into the AW file to where this sound starts</td>
+</tr>
+<tr>
+<td><code>u32</code></td>
+<td>AW Length</td>
+<td>In bytes</td>
+</tr>
+<tr>
+<td><code>sb32</code></td>
+<td>Loop?</td>
+<td></td>
+</tr>
+<tr>
+<td><code>u32</code></td>
+<td>Loop Start Sample</td>
+<td></td>
+</tr>
+<tr>
+<td><code>u32</code></td>
+<td>Loop End Sample</td>
+<td></td>
+</tr>
+<tr>
+<td><code>u32</code></td>
+<td>Sample Count</td>
+<td></td>
+</tr>
+<tr>
+<td><code>s16</code></td>
+<td>Last</td>
+<td>ADPCM uses the last two samples to predict the next one. This is the sample “previous” the first.</td>
+</tr>
+<tr>
+<td><code>s16</code></td>
+<td>Penult</td>
+<td>This is the sample “previous” the last (see above) sample</td>
+</tr>
+</tbody>
+</table>
+<h3 id="wbct">WBCT</h3>
+<p>The WBCT (Wave Bank Control Table) structure contains pointers to <a href="#scne">SCNEs</a>. That’s about it.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>char[4]</code></td>
+<td>Magic</td>
+<td>‘WBCT’ in ASCII</td>
+</tr>
+<tr>
+<td><code>sb32</code></td>
+<td>Unknown</td>
+<td>Always true</td>
+</tr>
+<tr>
+<td><code>u32</code></td>
+<td>SCNE Count</td>
+<td><code>n</code></td>
+</tr>
+<tr>
+<td><code>(u32 *)[n]</code></td>
+<td><a href="#scne">SCNE</a> Pointers</td>
+<td>One pointer for each of the <code>n</code> SCNEs</td>
+</tr>
+</tbody>
+</table>
+<h4 id="scne">SCNE</h4>
+<p>The SCNE (Scene) structure points to three tables, only one of which is actually used.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>char[4]</code></td>
+<td>Magic</td>
+<td>‘SCNE’ in ASCII</td>
+</tr>
+<tr>
+<td><code>u32[2]</code></td>
+<td>Unknown</td>
+<td>May be used to point to other things, but both of these are always 0 in Wind Waker</td>
+</tr>
+<tr>
+<td><code>u32 *</code></td>
+<td><a href="#c-df-c-ex-and-c-st">C-DF</a> Pointer</td>
+<td></td>
+</tr>
+<tr>
+<td><code>u32 *</code></td>
+<td><a href="#c-df-c-ex-and-c-st">C-EX</a> Pointer</td>
+<td></td>
+</tr>
+<tr>
+<td><code>u32 *</code></td>
+<td><a href="#c-df-c-ex-and-c-st">C-ST</a> Pointer</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="c-df-c-ex-and-c-st">C-DF, C-EX, and C-ST</h4>
+<p>The C-DF (Chunk – Data Format) is another pointer container giving information about the whereabouts of a few bits of metadata.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>char[4]</code></td>
+<td>Magic</td>
+<td>‘C-DF’ in ASCII</td>
+</tr>
+<tr>
+<td><code>u32</code></td>
+<td>WAVEID Count</td>
+<td><code>n</code></td>
+</tr>
+<tr>
+<td><code>(u32 *)[n]</code></td>
+<td><a href="#waveid">WAVEID</a> Pointers</td>
+<td>One pointer for each of the <code>n</code> WAVEIDs</td>
+</tr>
+</tbody>
+</table>
+<p>The C-EX (Chunk — Extra) and C-ST (Chunk — String Table) are completely unused in Wind Waker and can be ignored. They follow the same structure as the C-DF, but everything is zero.</p>
+<h4 id="waveid">WAVEID</h4>
+<p>The WAVEID appears to contain some metadata for each <a href="#wave">WAVE</a>, though seemingly only the, well, wave ID.
+According to <a href="https://www.lumasworkshop.com/wiki/WSYS#WAVEID">Luma’s Workshop</a>, JAudio v2 uses two 16-bit integers to represent the Wave Group ID and the WAVE ID;
+however what would be the Wave Group ID (which is supposed to match the WSYS) is always <code>0x0000</code>.
+Therefore, I am simply calling the whole 32-bits the Wave ID, but keep in mind it might be different.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>u32</code></td>
+<td>Wave ID</td>
+<td>See note above</td>
+</tr>
+<tr>
+<td><code>u32[12]</code></td>
+<td>Unknown</td>
+<td>Always 0</td>
+</tr>
+<tr>
+<td><code>sb32</code></td>
+<td>Unknown</td>
+<td>Always true</td>
+</tr>
+</tbody>
+</table>
+<h2 id="bsm">BSM</h2>
+<p>The BSM (Binary Stream Map) is a structure that holds all the header information for the streamed <a href="../AFC/">AFC</a> files.
+Each entry contains the file name and a copy of its header.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>u32[4]</code></td>
+<td>Unknown</td>
+<td>This is 0x00000006 00000000 00000000 00000000. I do not know what it means.</td>
+</tr>
+</tbody>
+</table>
+<p>Each entry goes as follows:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>char[16]</code></td>
+<td>File Name</td>
+<td>16 byte are always reserved. Unused bytes are null.</td>
+</tr>
+<tr>
+<td><code>u32</code></td>
+<td>Size</td>
+<td></td>
+</tr>
+<tr>
+<td><code>u32</code></td>
+<td>Sample Count</td>
+<td></td>
+</tr>
+<tr>
+<td><code>u16</code></td>
+<td>Sample Rate</td>
+<td>A much more reasonable data type for this application</td>
+</tr>
+<tr>
+<td><code>u16</code></td>
+<td>Bits per Sample</td>
+<td>This is unverified, but as every file is ADPCM4 and this is always 4, I am going with it.</td>
+</tr>
+<tr>
+<td><code>u16</code></td>
+<td>Samples per Frame</td>
+<td>Also a guess, but it’s always 16, and all of the files have 16 samples per frame.</td>
+</tr>
+<tr>
+<td><code>u16</code></td>
+<td>Unknown</td>
+<td>Either 0x1E (30) or 0x3C (60)</td>
+</tr>
+<tr>
+<td><code>ub32</code></td>
+<td>Loop?</td>
+<td></td>
+</tr>
+<tr>
+<td><code>u32</code></td>
+<td>Loop Start</td>
+<td>Measured in Samples. The end is assumed to be the sample count—the end of the file.</td>
+</tr>
+<tr>
+<td><code>u16</code></td>
+<td>Penult</td>
+<td>These are also my own assumption, as the penult and last are assumed to be zero anyways, which there are.</td>
+</tr>
+<tr>
+<td><code>u16</code></td>
+<td>Last</td>
+<td>See above.</td>
+</tr>
+<tr>
+<td><code>u32</code></td>
+<td>Padding</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="scl">SCL<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></h2>
+<p>Supposedly this penultimate section is the SCL (Sequence Category Limits).
+According to AI, this holds specifically maximum polyphony for 16 different categories.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>u32</code></td>
+<td>Pointer Count</td>
+<td>This is <code>0x02</code></td>
+</tr>
+<tr>
+<td><code>(u32 *)[n]</code></td>
+<td>Pointers<sup id="fnref12:2"><a class="footnote-ref" href="#fn:2">2</a></sup></td>
+<td>There are two pointers here. Each points to an array of 16 <code>0x04</code>’s. According to AI this means a max of 4 voices per category.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ssc">SSC<sup id="fnref2:1"><a class="footnote-ref" href="#fn:1">1</a></sup></h2>
+<p>Supposedly this last section is the SSC (Stream/Scene Configuration). This is supposed to tell the Game Cube basic information about the streams, such as maximum number of concurrent streams, and how to transition between them.
+I do not know exactly how this is laid out yet.</p>
+<hr />
+<hr />
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p><em>This is not verified; it was simply what an AI told me an it may or may not be accurate.</em>&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref3:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref4:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref5:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref6:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref7:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref8:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p><em>All pointers inside major structures defined at the beginning are offset relative to that structure’s header.</em>&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:2" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref3:2" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref4:2" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref5:2" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref6:2" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref7:2" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref8:2" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref9:2" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref10:2" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref11:2" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref12:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../BMS/" class="md-footer__link md-footer__link--prev" aria-label="Previous: BMS">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                BMS
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../JaiSeqs.arc/" class="md-footer__link md-footer__link--next" aria-label="Next: JaiSeqs.arc">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                JaiSeqs.arc
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; Vvlpine Stvdios
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.tabs.link", "content.tooltips", "navigation.expand", "navigation.footer", "navigation.path", "navigation.top", "navigation.tracking", "toc.follow", "toc.integrate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

@@ -9,7 +9,7 @@
 The JaiInit.aaf file is main information file pertaining to all things streamed audio, including file names and headers for both the [AW](./AW.md) (instrument bank) files and the [AFC](./AFC.md) (streamed audio) files, as well as what goes with which instrument, &c.
 
 ## Types & Terminology
-Throughout this I will refer to different types and user certain terms that. If you come across any term you do not know, check the [Types and Terminology Page](./types-and-terminology.md).
+Throughout this I will refer to different types and user certain terms that. If you come across any term you do not know, check the [Types and Terminology Page](../types-and-terminology.md).
 
 ## Generic Headers
 Each major section of this file is delineated by a generic header structure as follows:

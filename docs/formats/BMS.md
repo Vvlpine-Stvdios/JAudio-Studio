@@ -6,10 +6,10 @@
 	THIS SITE IS CURRENTLY DOCUMENTING JAUDIO VERSION ***<u>1</u>***. If you want information regarding JAudio Version 2, please go to [Luma’s Workshop](https://www.lumasworkshop.com/wiki/Main_Page).
 
 ## General Overview
-BMS (Binary Music Sequences) are MIDI-like [sequenced audio](./types-and-terminology.md#streamed-versus-sequenced-music-whats-the-difference) file. They are entirely made up of assembly instructions as can be found below.
+BMS (Binary Music Sequences) are MIDI-like [sequenced audio](../types-and-terminology.md#streamed-versus-sequenced-music-whats-the-difference) file. They are entirely made up of assembly instructions as can be found below.
 
 ## Operation Codes
-BMS files use operation codes (or simply ‘OpCodes’) to tell the audio engine what to do. All opcodes are written in [hexadecimal](./types-and-terminology.md/#terminology). Unnamed opcodes have not been found[^1].
+BMS files use operation codes (or simply ‘OpCodes’) to tell the audio engine what to do. All opcodes are written in [hexadecimal](../types-and-terminology.md/#terminology). Unnamed opcodes have not been found[^1].
 
 |  OpCode   |          Name           |            Format            |                                                                                                                                             Description                                                                                                                                             |                                 Example(s)                                 |
 | --------- | ----------------------- | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |

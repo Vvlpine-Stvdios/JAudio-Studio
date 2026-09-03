@@ -6,7 +6,7 @@
 	THIS SITE IS CURRENTLY DOCUMENTING JAUDIO VERSION ***<u>1</u>***. If you want information regarding JAudio Version 2, please go to [Luma’s Workshop](https://www.lumasworkshop.com/wiki/Main_Page).
 
 ## General Structure
-Each AFC file starts with a 32-byte header, followed by all of the audio data. AFC files are all [ADPCM](./types-and-terminology.md/#what-the-heck-is-adpcm-or-pcm-for-that-matter), and in the case of
+Each AFC file starts with a 32-byte header, followed by all of the audio data. AFC files are all [ADPCM](../types-and-terminology.md/#what-the-heck-is-adpcm-or-pcm-for-that-matter), and in the case of
 Wind Waker, ADPCM4.
 
 ### Header
